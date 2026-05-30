@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
 st.set_page_config(
     page_title="보건 체크",
@@ -25,11 +26,6 @@ st.markdown("""
         background-color: #2c6fad;
         transform: scale(1.02);
     }
-    .stButton > button:disabled {
-        background-color: #cccccc !important;
-        color: #888888 !important;
-        cursor: not-allowed;
-    }
     .result-box {
         background-color: #ffffff;
         border-left: 6px solid #4A90D9;
@@ -47,6 +43,9 @@ st.markdown("""
     }
     </style>
 """, unsafe_allow_html=True)
+
+# ── 카카오 API 키 ─────────────────────────────────────────
+KAKAO_API_KEY = "2a3d252c9366dd5397faac80ddca611f"
 
 # ── 데이터 ──────────────────────────────────────────────
 
@@ -113,6 +112,39 @@ MEDICINE = {
 """,
 }
 
+CONVENIENCE = {
+    "💊 해열진통제": """
+• <b>살 수 있는 약:</b> 타이레놀 (아세트아미노펜 500mg)<br>
+• <b>편의점 브랜드:</b> 타이레놀 이알, 게보린 소프트 등<br>
+• <b>언제 사나요:</b> 두통, 발열, 몸살이 갑자기 생겼을 때<br>
+• <span class='urgent'>⚠️ 주의:</span> 편의점 약은 1~2회 응급용입니다. 증상이 지속되면 약국에서 제대로 된 약을 구매하세요.
+""",
+    "🤢 소화제": """
+• <b>살 수 있는 약:</b> 훼스탈 플러스, 베아제<br>
+• <b>언제 사나요:</b> 과식 후 더부룩하거나 소화가 안 될 때<br>
+• <b>복용 방법:</b> 식후 바로 복용<br>
+• <span class='urgent'>⚠️ 주의:</span> 복통이 심하다면 소화제보다 병원 방문을 우선하세요.
+""",
+    "🤧 감기약": """
+• <b>살 수 있는 약:</b> 판콜에이, 화이투벤 등<br>
+• <b>언제 사나요:</b> 콧물, 코막힘, 가벼운 몸살 기운이 있을 때<br>
+• <b>복용 방법:</b> 식후 복용, 졸음 유발 주의<br>
+• <span class='urgent'>⚠️ 주의:</span> 다른 진통제(타이레놀 등)와 함께 먹으면 안 돼요. 성분이 겹칠 수 있어요.
+""",
+    "🩹 외용 상처약": """
+• <b>살 수 있는 약:</b> 대일밴드, 후시딘, 마데카솔 (일부 편의점)<br>
+• <b>언제 사나요:</b> 가벼운 찰과상, 작은 상처가 났을 때<br>
+• <b>사용 방법:</b> 상처를 물로 씻은 후 연고 바르고 밴드로 덮기<br>
+• <span class='urgent'>⚠️ 주의:</span> 상처가 깊거나 출혈이 심하면 편의점 약으로는 부족해요. 병원에 가세요.
+""",
+    "🏃 파스 (근육통)": """
+• <b>살 수 있는 약:</b> 제일파스, 신신파스, 쿨파스<br>
+• <b>언제 사나요:</b> 근육통, 어깨 결림, 타박상 초기<br>
+• <b>사용 방법:</b> 아픈 부위에 붙이고 4~8시간 후 제거<br>
+• <span class='urgent'>⚠️ 주의:</span> 상처가 난 피부나 점막 부위에는 붙이지 마세요.
+""",
+}
+
 # ── 세션 초기화 ──────────────────────────────────────────
 
 def reset():
@@ -120,10 +152,75 @@ def reset():
     st.session_state.symptom = None
     st.session_state.injury = None
     st.session_state.medicine = None
+    st.session_state.convenience = None
 
-for key in ["menu", "symptom", "injury", "medicine"]:
+for key in ["menu", "symptom", "injury", "medicine", "convenience"]:
     if key not in st.session_state:
         st.session_state[key] = None
+
+# ── 카카오 지도 HTML ─────────────────────────────────────
+
+def kakao_map_html(api_key):
+    return f"""
+    <div style="font-family: sans-serif;">
+      <div id="map" style="width:100%; height:400px; border-radius:12px;"></div>
+      <div id="result" style="margin-top:12px;"></div>
+    </div>
+    <script type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey={api_key}&libraries=services">
+    </script>
+    <script>
+      var mapContainer = document.getElementById('map');
+      var mapOption = {{
+        center: new kakao.maps.LatLng(37.5665, 126.9780),
+        level: 4
+      }};
+      var map = new kakao.maps.Map(mapContainer, mapOption);
+      var ps = new kakao.maps.services.Places();
+      var infowindow = new kakao.maps.InfoWindow({{zIndex:1}});
+
+      if (navigator.geolocation) {{
+        navigator.geolocation.getCurrentPosition(function(pos) {{
+          var lat = pos.coords.latitude;
+          var lng = pos.coords.longitude;
+          var locPos = new kakao.maps.LatLng(lat, lng);
+          map.setCenter(locPos);
+
+          new kakao.maps.Marker({{
+            map: map,
+            position: locPos,
+            title: '현재 위치'
+          }});
+
+          ps.keywordSearch('약국', function(data, status) {{
+            if (status === kakao.maps.services.Status.OK) {{
+              var resultDiv = document.getElementById('result');
+              resultDiv.innerHTML = '<b>📍 주변 약국 목록</b><br><br>';
+              for (var i = 0; i < data.length; i++) {{
+                (function(place) {{
+                  var marker = new kakao.maps.Marker({{
+                    map: map,
+                    position: new kakao.maps.LatLng(place.y, place.x)
+                  }});
+                  kakao.maps.event.addListener(marker, 'click', function() {{
+                    infowindow.setContent('<div style="padding:6px;font-size:13px;">' + place.place_name + '<br>' + (place.road_address_name || place.address_name) + '<br>' + (place.phone || '전화번호 없음') + '</div>');
+                    infowindow.open(map, marker);
+                  }});
+                  resultDiv.innerHTML += '🏥 <b>' + place.place_name + '</b> — ' + (place.road_address_name || place.address_name) + '<br>';
+                }})(data[i]);
+              }}
+            }}
+          }}, {{location: locPos, radius: 1000}});
+        }});
+      }} else {{
+        ps.keywordSearch('서울 약국', function(data, status) {{
+          if (status === kakao.maps.services.Status.OK) {{
+            map.setCenter(new kakao.maps.LatLng(data[0].y, data[0].x));
+          }}
+        }});
+      }}
+    </script>
+    """
 
 # ── UI ───────────────────────────────────────────────────
 
@@ -139,11 +236,15 @@ if st.session_state.menu is None:
     if st.button("🏠 [2] 우리 집 상비약 백과"):
         st.session_state.menu = "medicine"
         st.rerun()
+    if st.button("🗺️ [3] 주변 약국 찾기"):
+        st.session_state.menu = "pharmacy"
+        st.rerun()
+    if st.button("🏪 [4] 편의점 상비약 안내"):
+        st.session_state.menu = "convenience"
+        st.rerun()
 
 # ── 증상별 대처 가이드 ───────────────────────────────────
 elif st.session_state.menu == "guide":
-
-    # 증상 선택 전
     if st.session_state.symptom is None:
         st.markdown("### 💊 증상별 대처 가이드")
         st.markdown("해당하는 증상을 선택하세요.")
@@ -151,8 +252,6 @@ elif st.session_state.menu == "guide":
             if st.button(label):
                 st.session_state.symptom = label
                 st.rerun()
-
-    # 다쳤어요 → 세부 선택
     elif st.session_state.symptom == "4. 다쳤어요 (근육통/외상)":
         if st.session_state.injury is None:
             st.markdown("### 🩹 어떻게 다쳤나요?")
@@ -163,8 +262,6 @@ elif st.session_state.menu == "guide":
         else:
             st.markdown(f"### 🩹 {st.session_state.injury}")
             st.markdown(f"<div class='result-box'>{INJURY[st.session_state.injury]}</div>", unsafe_allow_html=True)
-
-    # 일반 증상 결과
     else:
         st.markdown(f"### {st.session_state.symptom}")
         st.markdown(f"<div class='result-box'>{GUIDE[st.session_state.symptom]}</div>", unsafe_allow_html=True)
@@ -176,7 +273,6 @@ elif st.session_state.menu == "guide":
 
 # ── 상비약 백과 ──────────────────────────────────────────
 elif st.session_state.menu == "medicine":
-
     if st.session_state.medicine is None:
         st.markdown("### 🏠 우리 집 상비약 백과")
         st.markdown("알고 싶은 약을 선택하세요.")
@@ -184,10 +280,39 @@ elif st.session_state.menu == "medicine":
             if st.button(label):
                 st.session_state.medicine = label
                 st.rerun()
-
     else:
         st.markdown(f"### {st.session_state.medicine}")
         st.markdown(f"<div class='result-box'>{MEDICINE[st.session_state.medicine]}</div>", unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+    if st.button("🔄 처음으로 돌아가기"):
+        reset()
+        st.rerun()
+
+# ── 주변 약국 찾기 ───────────────────────────────────────
+elif st.session_state.menu == "pharmacy":
+    st.markdown("### 🗺️ 주변 약국 찾기")
+    st.markdown("현재 위치 기준으로 1km 이내 약국을 보여줍니다.")
+    st.info("📍 브라우저에서 위치 접근 허용을 눌러주세요!")
+    components.html(kakao_map_html(KAKAO_API_KEY), height=550, scrolling=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+    if st.button("🔄 처음으로 돌아가기"):
+        reset()
+        st.rerun()
+
+# ── 편의점 상비약 ─────────────────────────────────────────
+elif st.session_state.menu == "convenience":
+    if st.session_state.convenience is None:
+        st.markdown("### 🏪 편의점 상비약 안내")
+        st.markdown("알고 싶은 약 종류를 선택하세요.")
+        for label in CONVENIENCE.keys():
+            if st.button(label):
+                st.session_state.convenience = label
+                st.rerun()
+    else:
+        st.markdown(f"### {st.session_state.convenience}")
+        st.markdown(f"<div class='result-box'>{CONVENIENCE[st.session_state.convenience]}</div>", unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
     if st.button("🔄 처음으로 돌아가기"):
