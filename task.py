@@ -41,8 +41,6 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-KAKAO_API_KEY = "2a3d252c9366dd5397faac80ddca611f"
-
 GUIDE = {
     "1. 머리가 아파요 (두통)": """
 • <b>환경 조성:</b> 빛과 소리에 예민해질 수 있으니 방을 어둡게 하고 조용한 상태에서 쉬세요.<br>
@@ -139,77 +137,276 @@ CONVENIENCE = {
 """,
 }
 
-# 약국 데이터 (주소로 geocoding해서 지도에 표시)
-PHARMACIES = [
-    {"name": "하나로약국", "address": "경기 남양주시 퇴계원읍 퇴계원로 117", "phone": "031-571-7579", "hours": "월~금 09:00~18:00 / 토 09:00~16:00 / 일 휴무"},
-    {"name": "용한약국", "address": "경기 남양주시 퇴계원읍 퇴계원로 93", "phone": "031-527-1188", "hours": "월~금 09:00~22:00 / 토 09:00~21:00 / 공휴일 10:00~22:00 / 일 휴무"},
-    {"name": "소중한약국", "address": "경기 남양주시 퇴계원읍 퇴계원로 70", "phone": "031-571-7233", "hours": "월~금 09:00~19:00 / 일 09:00~15:00 / 토·공휴일 휴무"},
-    {"name": "세민약국", "address": "경기 남양주시 퇴계원읍 퇴계원로 51", "phone": "031-571-6734", "hours": "월~금 09:00~20:00 / 토 09:00~21:00 / 공휴일 09:00~18:00 / 일 휴무"},
-    {"name": "임약국", "address": "경기 남양주시 퇴계원읍 퇴계원로 52", "phone": "031-574-8484", "hours": "월~목 09:00~20:00 / 금 09:00~18:00 / 토 09:00~15:00 / 일 09:00~18:00"},
-    {"name": "참조은약국", "address": "경기 남양주시 퇴계원읍 퇴계원로 48", "phone": "031-574-1251", "hours": "월~금 09:00~18:00 / 토 09:00~13:00 / 일 휴무"},
-    {"name": "비젼약국", "address": "경기 남양주시 퇴계원읍 퇴계원로 46-1", "phone": "031-574-1008", "hours": "월~금 09:00~18:30 / 토 09:00~14:00 / 일 휴무"},
-    {"name": "참사랑약국", "address": "경기 남양주시 퇴계원읍 퇴계원로46번길 1", "phone": "031-528-5767", "hours": "월~금 09:00~20:00 / 토 09:00~21:00 / 일 휴무"},
-    {"name": "문온누리약국", "address": "경기 남양주시 퇴계원읍 퇴계원로 29", "phone": "031-572-0409", "hours": "월·수·금 08:00~21:00 / 화·목 08:00~19:00 / 토·일 08:00~16:00"},
-    {"name": "굿모닝약국", "address": "경기 남양주시 퇴계원읍 퇴계원로 30", "phone": "031-572-7749", "hours": "월~금 09:00~13:00 / 토 09:00~16:00 / 일 휴무"},
-    {"name": "미엘약국", "address": "경기 남양주시 퇴계원읍 퇴계원로 20", "phone": "031-571-2147", "hours": "월~금 09:00~21:00 / 토·일·공휴일 09:00~18:00"},
-    {"name": "정안약국", "address": "경기 남양주시 퇴계원읍 퇴계원로 16", "phone": "031-571-9574", "hours": "월~금 09:00~20:30 / 토 09:00~17:00 / 일 휴무"},
-]
+PHARMACY_MAP_HTML = """
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body { margin:0; font-family: 'Malgun Gothic', sans-serif; background:#f0f7ff; }
+  #container { position: relative; width:100%; }
+  #map-area {
+    position: relative;
+    width: 100%;
+    height: 420px;
+    background: linear-gradient(180deg, #d4e8f7 0%, #c8e0f0 40%, #b8d4e8 100%);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid #4A90D9;
+  }
+  /* 도로 */
+  .road-h {
+    position: absolute;
+    background: #f5e6c8;
+    border-top: 2px solid #d4a843;
+    border-bottom: 2px solid #d4a843;
+  }
+  .road-v {
+    position: absolute;
+    background: #f5e6c8;
+    border-left: 2px solid #d4a843;
+    border-right: 2px solid #d4a843;
+  }
+  /* 블록 */
+  .block {
+    position: absolute;
+    background: #e8f0d8;
+    border: 1px solid #b8c8a8;
+    border-radius: 4px;
+  }
+  /* 마커 */
+  .marker {
+    position: absolute;
+    cursor: pointer;
+    transform: translate(-50%, -100%);
+    text-align: center;
+    z-index: 10;
+  }
+  .marker-pin {
+    width: 28px;
+    height: 28px;
+    background: #e74c3c;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    border: 3px solid #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    margin: 0 auto;
+    transition: transform 0.2s, background 0.2s;
+  }
+  .marker:hover .marker-pin {
+    background: #c0392b;
+    transform: rotate(-45deg) scale(1.2);
+  }
+  .marker-label {
+    font-size: 10px;
+    font-weight: bold;
+    color: #222;
+    background: rgba(255,255,255,0.9);
+    padding: 2px 4px;
+    border-radius: 4px;
+    margin-top: 4px;
+    white-space: nowrap;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+  /* 학교 마커 */
+  .school-marker {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    text-align: center;
+  }
+  .school-icon {
+    font-size: 28px;
+  }
+  .school-label {
+    font-size: 11px;
+    font-weight: bold;
+    color: #1a5276;
+    background: rgba(255,255,255,0.95);
+    padding: 2px 6px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  /* 팝업 */
+  #popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border-radius: 14px;
+    padding: 20px 24px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    z-index: 100;
+    min-width: 280px;
+    max-width: 340px;
+    border-top: 5px solid #4A90D9;
+  }
+  #popup h3 { margin: 0 0 12px; color: #1a5276; font-size: 16px; }
+  #popup p { margin: 6px 0; font-size: 13px; color: #333; line-height: 1.6; }
+  #popup .close-btn {
+    margin-top: 14px;
+    width: 100%;
+    padding: 8px;
+    background: #4A90D9;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  #overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.3);
+    z-index: 99;
+  }
+  /* 범례 */
+  #legend {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: white;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #555;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+</style>
+</head>
+<body>
+<div id="container">
+  <div id="map-area">
 
-def pharmacy_map_html(pharmacies, api_key):
-    import json
-    pharmacies_json = json.dumps(pharmacies, ensure_ascii=False)
-    return f"""
-    <div style="font-family: sans-serif;">
-      <div id="map" style="width:100%; height:450px; border-radius:12px; border:1px solid #ddd;"></div>
-      <p style="font-size:13px; color:#666; margin-top:8px;">📍 약국 마커를 클릭하면 상세 정보가 나와요!</p>
+    <!-- 도로 (퇴계원로 방향) -->
+    <div class="road-h" style="top:50%; left:0; width:100%; height:36px; margin-top:-18px;"></div>
+    <div class="road-v" style="left:48%; top:0; height:100%; width:28px; margin-left:-14px;"></div>
+    <div class="road-h" style="top:25%; left:0; width:100%; height:18px; margin-top:-9px; opacity:0.6;"></div>
+    <div class="road-h" style="top:75%; left:0; width:100%; height:18px; margin-top:-9px; opacity:0.6;"></div>
+
+    <!-- 건물 블록들 -->
+    <div class="block" style="left:5%; top:10%; width:18%; height:28%;"></div>
+    <div class="block" style="left:26%; top:10%; width:18%; height:28%;"></div>
+    <div class="block" style="left:55%; top:10%; width:18%; height:28%;"></div>
+    <div class="block" style="left:76%; top:10%; width:18%; height:28%;"></div>
+    <div class="block" style="left:5%; top:62%; width:18%; height:28%;"></div>
+    <div class="block" style="left:26%; top:62%; width:18%; height:28%;"></div>
+    <div class="block" style="left:55%; top:62%; width:18%; height:28%;"></div>
+    <div class="block" style="left:76%; top:62%; width:18%; height:28%;"></div>
+
+    <!-- 학교 마커 -->
+    <div class="school-marker" style="left:48%; top:50%;">
+      <div class="school-icon">🏫</div>
+      <div class="school-label">우리 학교</div>
     </div>
-    <script type="text/javascript"
-      src="//dapi.kakao.com/v2/maps/sdk.js?appkey={api_key}&libraries=services">
-    </script>
-    <script>
-      var pharmacies = {pharmacies_json};
 
-      var mapContainer = document.getElementById('map');
-      var mapOption = {{
-        center: new kakao.maps.LatLng(37.6528, 127.1300),
-        level: 4
-      }};
-      var map = new kakao.maps.Map(mapContainer, mapOption);
-      var geocoder = new kakao.maps.services.Geocoder();
-      var bounds = new kakao.maps.LatLngBounds();
+    <!-- 약국 마커들 -->
+    <div class="marker" style="left:15%; top:45%;" onclick="showPopup(0)">
+      <div class="marker-pin"></div>
+      <div class="marker-label">하나로</div>
+    </div>
+    <div class="marker" style="left:28%; top:48%;" onclick="showPopup(1)">
+      <div class="marker-pin"></div>
+      <div class="marker-label">용한</div>
+    </div>
+    <div class="marker" style="left:36%; top:44%;" onclick="showPopup(2)">
+      <div class="marker-pin"></div>
+      <div class="marker-label">소중한</div>
+    </div>
+    <div class="marker" style="left:42%; top:52%;" onclick="showPopup(3)">
+      <div class="marker-pin"></div>
+      <div class="marker-label">세민</div>
+    </div>
+    <div class="marker" style="left:56%; top:46%;" onclick="showPopup(4)">
+      <div class="marker-pin"></div>
+      <div class="marker-label">임약국</div>
+    </div>
+    <div class="marker" style="left:63%; top:53%;" onclick="showPopup(5)">
+      <div class="marker-pin"></div>
+      <div class="marker-label">참조은</div>
+    </div>
+    <div class="marker" style="left:70%; top:45%;" onclick="showPopup(6)">
+      <div class="marker-pin"></div>
+      <div class="marker-label">비젼</div>
+    </div>
+    <div class="marker" style="left:78%; top:52%;" onclick="showPopup(7)">
+      <div class="marker-pin"></div>
+      <div class="marker-label">참사랑</div>
+    </div>
+    <div class="marker" style="left:20%; top:68%;" onclick="showPopup(8)">
+      <div class="marker-pin"></div>
+      <div class="marker-label">문온누리</div>
+    </div>
+    <div class="marker" style="left:32%; top:65%;" onclick="showPopup(9)">
+      <div class="marker-pin"></div>
+      <div class="marker-label">굿모닝</div>
+    </div>
+    <div class="marker" style="left:60%; top:67%;" onclick="showPopup(10)">
+      <div class="marker-pin"></div>
+      <div class="marker-label">미엘</div>
+    </div>
+    <div class="marker" style="left:75%; top:65%;" onclick="showPopup(11)">
+      <div class="marker-pin"></div>
+      <div class="marker-label">정안</div>
+    </div>
+  </div>
 
-      pharmacies.forEach(function(p) {{
-        geocoder.addressSearch(p.address, function(result, status) {{
-          if (status === kakao.maps.services.Status.OK) {{
-            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-            bounds.extend(coords);
+  <div id="legend">
+    <span>📍 빨간 핀 = 약국 (클릭하면 정보 표시)</span>
+    <span>🏫 = 우리 학교</span>
+  </div>
+</div>
 
-            var marker = new kakao.maps.Marker({{
-              map: map,
-              position: coords,
-              title: p.name
-            }});
+<!-- 팝업 -->
+<div id="overlay" onclick="closePopup()"></div>
+<div id="popup">
+  <h3 id="popup-name"></h3>
+  <p id="popup-address"></p>
+  <p id="popup-phone"></p>
+  <p id="popup-hours"></p>
+  <button class="close-btn" onclick="closePopup()">닫기</button>
+</div>
 
-            var content =
-              '<div style="padding:12px;min-width:220px;font-size:13px;line-height:2;box-shadow:0 2px 8px rgba(0,0,0,0.15);border-radius:8px;background:#fff;">' +
-              '<b style="font-size:15px;">🏥 ' + p.name + '</b><br>' +
-              '📍 ' + p.address + '<br>' +
-              '📞 ' + p.phone + '<br>' +
-              '🕐 ' + p.hours +
-              '</div>';
+<script>
+var pharmacies = [
+  {name:"🏥 하나로약국", address:"📍 퇴계원로 117 염광빌딩 101호", phone:"📞 031-571-7579", hours:"🕐 월~금 09:00~18:00 / 토 09:00~16:00 / 일 휴무"},
+  {name:"🏥 용한약국", address:"📍 퇴계원로 93 1층", phone:"📞 031-527-1188", hours:"🕐 월~금 09:00~22:00 / 토 09:00~21:00 / 공휴일 10:00~22:00 / 일 휴무"},
+  {name:"🏥 소중한약국", address:"📍 퇴계원로 70 1층", phone:"📞 031-571-7233", hours:"🕐 월~금 09:00~19:00 / 일 09:00~15:00 / 토·공휴일 휴무"},
+  {name:"🏥 세민약국", address:"📍 퇴계원로 51", phone:"📞 031-571-6734", hours:"🕐 월~금 09:00~20:00 / 토 09:00~21:00 / 공휴일 09:00~18:00 / 일 휴무"},
+  {name:"🏥 임약국", address:"📍 퇴계원로 52 다모아빌딩 103호", phone:"📞 031-574-8484", hours:"🕐 월~목 09:00~20:00 / 금 09:00~18:00 / 토 09:00~15:00 / 일 09:00~18:00"},
+  {name:"🏥 참조은약국", address:"📍 퇴계원로 48 가동 103호", phone:"📞 031-574-1251", hours:"🕐 월~금 09:00~18:00 / 토 09:00~13:00 / 일 휴무"},
+  {name:"🏥 비젼약국", address:"📍 퇴계원로 46-1", phone:"📞 031-574-1008", hours:"🕐 월~금 09:00~18:30 / 토 09:00~14:00 / 일 휴무"},
+  {name:"🏥 참사랑약국", address:"📍 퇴계원로46번길 1", phone:"📞 031-528-5767", hours:"🕐 월~금 09:00~20:00 / 토 09:00~21:00 / 일 휴무"},
+  {name:"🏥 문온누리약국", address:"📍 퇴계원로 29", phone:"📞 031-572-0409", hours:"🕐 월·수·금 08:00~21:00 / 화·목 08:00~19:00 / 토·일 08:00~16:00"},
+  {name:"🏥 굿모닝약국", address:"📍 퇴계원로 30 보성빌딩 1층", phone:"📞 031-572-7749", hours:"🕐 월~금 09:00~13:00 / 토 09:00~16:00 / 일 휴무"},
+  {name:"🏥 미엘약국", address:"📍 퇴계원로 20 1층", phone:"📞 031-571-2147", hours:"🕐 월~금 09:00~21:00 / 토·일·공휴일 09:00~18:00"},
+  {name:"🏥 정안약국", address:"📍 퇴계원로 16 1층 101,102호", phone:"📞 031-571-9574", hours:"🕐 월~금 09:00~20:30 / 토 09:00~17:00 / 일 휴무"}
+];
 
-            var infowindow = new kakao.maps.InfoWindow({{ content: content, removable: true }});
+function showPopup(idx) {
+  var p = pharmacies[idx];
+  document.getElementById('popup-name').innerText = p.name;
+  document.getElementById('popup-address').innerText = p.address;
+  document.getElementById('popup-phone').innerText = p.phone;
+  document.getElementById('popup-hours').innerText = p.hours;
+  document.getElementById('popup').style.display = 'block';
+  document.getElementById('overlay').style.display = 'block';
+}
 
-            kakao.maps.event.addListener(marker, 'click', function() {{
-              infowindow.open(map, marker);
-            }});
-
-            map.setBounds(bounds);
-          }}
-        }});
-      }});
-    </script>
-    """
+function closePopup() {
+  document.getElementById('popup').style.display = 'none';
+  document.getElementById('overlay').style.display = 'none';
+}
+</script>
+</body>
+</html>
+"""
 
 def reset():
     st.session_state.menu = None
@@ -284,8 +481,8 @@ elif st.session_state.menu == "medicine":
 
 elif st.session_state.menu == "pharmacy":
     st.markdown("### 🗺️ 주변 약국 찾기")
-    st.markdown("마커를 클릭하면 약국 정보가 나와요! 📍")
-    components.html(pharmacy_map_html(PHARMACIES, KAKAO_API_KEY), height=520, scrolling=False)
+    st.markdown("📍 빨간 핀을 클릭하면 약국 정보가 나와요!")
+    components.html(PHARMACY_MAP_HTML, height=520, scrolling=False)
     st.markdown("<br>", unsafe_allow_html=True)
     if st.button("🔄 처음으로 돌아가기"):
         reset()
