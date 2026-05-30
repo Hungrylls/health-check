@@ -154,7 +154,6 @@ PHARMACY_MAP_HTML = """
 .marker{position:absolute;transform:translate(-50%,-100%);cursor:pointer;z-index:20;transition:transform 0.15s;}
 .marker:hover{transform:translate(-50%,-100%) scale(1.2);}
 .compass{position:absolute;top:10px;right:10px;z-index:30;background:#fff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:0.5px solid #ccc;font-size:11px;font-weight:700;color:#e74c3c;box-shadow:0 1px 4px rgba(0,0,0,0.12);}
-.scalebar{position:absolute;bottom:10px;left:10px;z-index:30;background:rgba(255,255,255,0.88);border-bottom:2px solid #555;border-left:2px solid #555;border-right:2px solid #555;padding:2px 6px 4px;font-size:9px;color:#444;font-family:sans-serif;}
 #popup{position:absolute;bottom:0;left:0;right:0;z-index:50;background:#ffffff !important;border-radius:14px 14px 0 0;padding:14px 16px 18px;box-shadow:0 -4px 18px rgba(0,0,0,0.18);transform:translateY(100%);transition:transform 0.22s ease;border-top:1px solid #ddd;}
 #popup.open{transform:translateY(0);}
 #popup-bar{width:32px;height:4px;background:#bbb;border-radius:2px;margin:0 auto 10px;}
@@ -243,8 +242,6 @@ PHARMACY_MAP_HTML = """
   </div>
 
   <div class="compass">N</div>
-  <div class="scalebar">150m</div>
-
   <div id="popup">
     <div id="popup-bar"></div>
     <div id="pbtn" onclick="closeP()">✕</div>
