@@ -176,7 +176,7 @@ PHARMACY_MAP_HTML = """
 
   <div class="road-main" style="left:48%;top:0;width:6%;height:100%;"></div>
   <div style="position:absolute;left:50.8%;top:0;width:2px;height:100%;background:repeating-linear-gradient(180deg,#f5c518 0,#f5c518 16px,transparent 16px,transparent 28px);opacity:0.7;pointer-events:none;z-index:3;"></div>
-  <div class="road-name" style="left:55%;top:6%;writing-mode:vertical-rl;letter-spacing:1px;z-index:5;">橫퇴계원로</div>
+  <div class="road-name" style="left:55%;top:6%;writing-mode:vertical-rl;letter-spacing:1px;z-index:5;">퇴계원로</div>
 
   <div class="road-sub" style="left:10%;top:30%;width:85%;height:3%;"></div>
   <div class="road-sub" style="left:10%;top:44%;width:85%;height:2.5%;"></div>
@@ -184,7 +184,7 @@ PHARMACY_MAP_HTML = """
   <div class="road-sub" style="left:10%;top:68%;width:85%;height:2.5%;"></div>
   <div class="road-sub" style="left:10%;top:80%;width:85%;height:2.5%;"></div>
 
-  <div class="road-tiny" style="left:30%;top:10%;width:2.5%;height:80%;"></div>
+  <div class="road-tiny" style="left:18%;top:10%;width:2.5%;height:80%;"></div>
   <div class="road-tiny" style="left:70%;top:20%;width:2.5%;height:65%;"></div>
   <div class="road-tiny" style="left:82%;top:25%;width:2.5%;height:55%;"></div>
 
@@ -199,11 +199,10 @@ PHARMACY_MAP_HTML = """
   <div class="bldg" style="left:70%;top:48%;width:10%;height:7%;"></div>
   <div class="bldg" style="left:70%;top:61%;width:10%;height:6%;"></div>
   <div class="bldg" style="left:35%;top:34%;width:10%;height:9%;"></div>
-  <div class="bldg" style="left:35%;top:48%;width:10%;height:7%;"></div>
   <div class="bldg" style="left:35%;top:61%;width:10%;height:8%;"></div>
 
   <div class="bldg-named" style="left:34%;top:5%;width:13%;height:22%;background:#d4e8f0;border:2px solid #4285f4;color:#1a5276;font-size:11px;">퇴계원<br>고등학교</div>
-  <div class="bldg-named" style="left:35%;top:48%;width:10%;height:11%;background:#dce8f8;border:2px solid #5b8dd9;color:#1a3a6b;">퇴계원<br>중학교</div>
+  <div class="bldg-named" style="left:23%;top:48%;width:11%;height:11%;background:#dce8f8;border:2px solid #5b8dd9;color:#1a3a6b;z-index:10;">퇴계원<br>중학교</div>
   <div class="bldg-named" style="left:56%;top:72%;width:11%;height:7%;background:#fce8e8;border:2px solid #c0392b;color:#7b241c;">엘병원</div>
 
   <div class="marker" style="left:43%;top:31%;" onclick="show(0)">
