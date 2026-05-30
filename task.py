@@ -138,274 +138,158 @@ CONVENIENCE = {
 }
 
 PHARMACY_MAP_HTML = """
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
 <style>
-  body { margin:0; font-family: 'Malgun Gothic', sans-serif; background:#f0f7ff; }
-  #container { position: relative; width:100%; }
-  #map-area {
-    position: relative;
-    width: 100%;
-    height: 420px;
-    background: linear-gradient(180deg, #d4e8f7 0%, #c8e0f0 40%, #b8d4e8 100%);
-    border-radius: 12px;
-    overflow: hidden;
-    border: 2px solid #4A90D9;
-  }
-  /* 도로 */
-  .road-h {
-    position: absolute;
-    background: #f5e6c8;
-    border-top: 2px solid #d4a843;
-    border-bottom: 2px solid #d4a843;
-  }
-  .road-v {
-    position: absolute;
-    background: #f5e6c8;
-    border-left: 2px solid #d4a843;
-    border-right: 2px solid #d4a843;
-  }
-  /* 블록 */
-  .block {
-    position: absolute;
-    background: #e8f0d8;
-    border: 1px solid #b8c8a8;
-    border-radius: 4px;
-  }
-  /* 마커 */
-  .marker {
-    position: absolute;
-    cursor: pointer;
-    transform: translate(-50%, -100%);
-    text-align: center;
-    z-index: 10;
-  }
-  .marker-pin {
-    width: 28px;
-    height: 28px;
-    background: #e74c3c;
-    border-radius: 50% 50% 50% 0;
-    transform: rotate(-45deg);
-    border: 3px solid #fff;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-    margin: 0 auto;
-    transition: transform 0.2s, background 0.2s;
-  }
-  .marker:hover .marker-pin {
-    background: #c0392b;
-    transform: rotate(-45deg) scale(1.2);
-  }
-  .marker-label {
-    font-size: 10px;
-    font-weight: bold;
-    color: #222;
-    background: rgba(255,255,255,0.9);
-    padding: 2px 4px;
-    border-radius: 4px;
-    margin-top: 4px;
-    white-space: nowrap;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-  }
-  /* 학교 마커 */
-  .school-marker {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    z-index: 5;
-    text-align: center;
-  }
-  .school-icon {
-    font-size: 28px;
-  }
-  .school-label {
-    font-size: 11px;
-    font-weight: bold;
-    color: #1a5276;
-    background: rgba(255,255,255,0.95);
-    padding: 2px 6px;
-    border-radius: 4px;
-    white-space: nowrap;
-  }
-  /* 팝업 */
-  #popup {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    border-radius: 14px;
-    padding: 20px 24px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-    z-index: 100;
-    min-width: 280px;
-    max-width: 340px;
-    border-top: 5px solid #4A90D9;
-  }
-  #popup h3 { margin: 0 0 12px; color: #1a5276; font-size: 16px; }
-  #popup p { margin: 6px 0; font-size: 13px; color: #333; line-height: 1.6; }
-  #popup .close-btn {
-    margin-top: 14px;
-    width: 100%;
-    padding: 8px;
-    background: #4A90D9;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  #overlay {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.3);
-    z-index: 99;
-  }
-  /* 범례 */
-  #legend {
-    margin-top: 8px;
-    padding: 8px 12px;
-    background: white;
-    border-radius: 8px;
-    font-size: 12px;
-    color: #555;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-    display: flex;
-    gap: 16px;
-    align-items: center;
-  }
+*{box-sizing:border-box;margin:0;padding:0;}
+#wrap{position:relative;width:100%;height:580px;border-radius:12px;overflow:hidden;border:0.5px solid var(--color-border-tertiary);}
+#map{width:100%;height:100%;position:relative;background:#e9e5dc;overflow:hidden;}
+.park{position:absolute;background:#c9e6a3;border:0.5px solid #a8cc7a;}
+.water{position:absolute;background:#a8d4e8;}
+.bldg{position:absolute;background:#d6d2c9;border:0.5px solid #bbb8b0;border-radius:1px;}
+.bldg-named{position:absolute;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;text-align:center;line-height:1.3;font-family:sans-serif;}
+.road-main{position:absolute;background:#fff;}
+.road-sub{position:absolute;background:#f0ece4;}
+.road-tiny{position:absolute;background:#ede9e0;}
+.lbl{position:absolute;font-size:9px;color:#888;white-space:nowrap;pointer-events:none;font-family:sans-serif;}
+.road-name{position:absolute;font-size:9px;color:#666;white-space:nowrap;pointer-events:none;font-family:sans-serif;background:rgba(255,255,255,0.75);padding:1px 3px;border-radius:2px;}
+.marker{position:absolute;transform:translate(-50%,-100%);cursor:pointer;z-index:20;transition:transform 0.15s;}
+.marker:hover{transform:translate(-50%,-100%) scale(1.2);}
+.school-box{position:absolute;transform:translate(-50%,-50%);z-index:15;background:#fff;border:2px solid #4285f4;border-radius:6px;padding:3px 7px;font-size:10px;font-weight:700;color:#4285f4;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,0.18);font-family:sans-serif;}
+.compass{position:absolute;top:10px;right:10px;z-index:30;background:#fff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:0.5px solid #ccc;font-size:11px;font-weight:700;color:#e74c3c;box-shadow:0 1px 4px rgba(0,0,0,0.12);}
+.scalebar{position:absolute;bottom:10px;left:10px;z-index:30;background:rgba(255,255,255,0.88);border-bottom:2px solid #555;border-left:2px solid #555;border-right:2px solid #555;padding:2px 6px 4px;font-size:9px;color:#444;font-family:sans-serif;}
+#popup{position:absolute;bottom:0;left:0;right:0;z-index:50;background:var(--color-background-primary);border-radius:14px 14px 0 0;padding:14px 16px 18px;box-shadow:0 -4px 18px rgba(0,0,0,0.14);transform:translateY(100%);transition:transform 0.22s ease;border-top:0.5px solid var(--color-border-tertiary);}
+#popup.open{transform:translateY(0);}
+#popup-bar{width:32px;height:4px;background:var(--color-border-secondary);border-radius:2px;margin:0 auto 10px;}
+#popup-name{font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px;}
+.prow{font-size:13px;color:var(--color-text-secondary);margin-top:5px;line-height:1.5;}
+#pbtn{position:absolute;top:12px;right:12px;width:26px;height:26px;border-radius:50%;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);cursor:pointer;font-size:13px;color:var(--color-text-secondary);display:flex;align-items:center;justify-content:center;}
 </style>
-</head>
-<body>
-<div id="container">
-  <div id="map-area">
 
-    <!-- 도로 (퇴계원로 방향) -->
-    <div class="road-h" style="top:50%; left:0; width:100%; height:36px; margin-top:-18px;"></div>
-    <div class="road-v" style="left:48%; top:0; height:100%; width:28px; margin-left:-14px;"></div>
-    <div class="road-h" style="top:25%; left:0; width:100%; height:18px; margin-top:-9px; opacity:0.6;"></div>
-    <div class="road-h" style="top:75%; left:0; width:100%; height:18px; margin-top:-9px; opacity:0.6;"></div>
+<div id="wrap">
+<div id="map">
 
-    <!-- 건물 블록들 -->
-    <div class="block" style="left:5%; top:10%; width:18%; height:28%;"></div>
-    <div class="block" style="left:26%; top:10%; width:18%; height:28%;"></div>
-    <div class="block" style="left:55%; top:10%; width:18%; height:28%;"></div>
-    <div class="block" style="left:76%; top:10%; width:18%; height:28%;"></div>
-    <div class="block" style="left:5%; top:62%; width:18%; height:28%;"></div>
-    <div class="block" style="left:26%; top:62%; width:18%; height:28%;"></div>
-    <div class="block" style="left:55%; top:62%; width:18%; height:28%;"></div>
-    <div class="block" style="left:76%; top:62%; width:18%; height:28%;"></div>
+  <div class="park" style="left:0;top:0;width:22%;height:38%;border-radius:0 0 30% 0;"></div>
+  <div class="park" style="right:0;top:0;width:18%;height:30%;border-radius:0 0 0 40%;"></div>
+  <div class="park" style="left:0;bottom:0;width:16%;height:25%;border-radius:0 40% 0 0;"></div>
+  <div class="park" style="right:0;bottom:0;width:20%;height:28%;border-radius:40% 0 0 0;"></div>
+  <div class="park" style="left:20%;top:0;width:18%;height:12%;"></div>
 
-    <!-- 학교 마커 -->
-    <div class="school-marker" style="left:48%; top:50%;">
-      <div class="school-icon">🏫</div>
-      <div class="school-label">우리 학교</div>
-    </div>
+  <div class="water" style="right:0;top:15%;width:6%;height:55%;border-radius:4px;"></div>
+  <div class="lbl" style="right:1%;top:35%;writing-mode:vertical-rl;font-size:8px;color:#5599bb;">왕숙천</div>
 
-    <!-- 약국 마커들 -->
-    <div class="marker" style="left:15%; top:45%;" onclick="showPopup(0)">
-      <div class="marker-pin"></div>
-      <div class="marker-label">하나로</div>
-    </div>
-    <div class="marker" style="left:28%; top:48%;" onclick="showPopup(1)">
-      <div class="marker-pin"></div>
-      <div class="marker-label">용한</div>
-    </div>
-    <div class="marker" style="left:36%; top:44%;" onclick="showPopup(2)">
-      <div class="marker-pin"></div>
-      <div class="marker-label">소중한</div>
-    </div>
-    <div class="marker" style="left:42%; top:52%;" onclick="showPopup(3)">
-      <div class="marker-pin"></div>
-      <div class="marker-label">세민</div>
-    </div>
-    <div class="marker" style="left:56%; top:46%;" onclick="showPopup(4)">
-      <div class="marker-pin"></div>
-      <div class="marker-label">임약국</div>
-    </div>
-    <div class="marker" style="left:63%; top:53%;" onclick="showPopup(5)">
-      <div class="marker-pin"></div>
-      <div class="marker-label">참조은</div>
-    </div>
-    <div class="marker" style="left:70%; top:45%;" onclick="showPopup(6)">
-      <div class="marker-pin"></div>
-      <div class="marker-label">비젼</div>
-    </div>
-    <div class="marker" style="left:78%; top:52%;" onclick="showPopup(7)">
-      <div class="marker-pin"></div>
-      <div class="marker-label">참사랑</div>
-    </div>
-    <div class="marker" style="left:20%; top:68%;" onclick="showPopup(8)">
-      <div class="marker-pin"></div>
-      <div class="marker-label">문온누리</div>
-    </div>
-    <div class="marker" style="left:32%; top:65%;" onclick="showPopup(9)">
-      <div class="marker-pin"></div>
-      <div class="marker-label">굿모닝</div>
-    </div>
-    <div class="marker" style="left:60%; top:67%;" onclick="showPopup(10)">
-      <div class="marker-pin"></div>
-      <div class="marker-label">미엘</div>
-    </div>
-    <div class="marker" style="left:75%; top:65%;" onclick="showPopup(11)">
-      <div class="marker-pin"></div>
-      <div class="marker-label">정안</div>
-    </div>
+  <div class="road-main" style="left:38%;top:0;width:5%;height:100%;"></div>
+  <div style="position:absolute;left:40.3%;top:0;width:1.5px;height:100%;background:repeating-linear-gradient(180deg,#f5c518 0,#f5c518 16px,transparent 16px,transparent 28px);opacity:0.7;pointer-events:none;z-index:3;"></div>
+  <div class="road-name" style="left:41%;top:6%;writing-mode:vertical-rl;letter-spacing:1px;z-index:5;">퇴계원로</div>
+
+  <div class="road-sub" style="left:38%;top:56%;width:30%;height:3%;"></div>
+  <div class="road-name" style="left:50%;top:54%;font-size:8px;">퇴계원로46번길</div>
+
+  <div class="road-sub" style="left:20%;top:30%;width:55%;height:2.5%;"></div>
+  <div class="road-sub" style="left:20%;top:44%;width:55%;height:2%;"></div>
+  <div class="road-sub" style="left:20%;top:68%;width:55%;height:2%;"></div>
+  <div class="road-sub" style="left:20%;top:80%;width:55%;height:2%;"></div>
+
+  <div class="road-tiny" style="left:25%;top:10%;width:2%;height:80%;"></div>
+  <div class="road-tiny" style="left:55%;top:20%;width:2%;height:65%;"></div>
+  <div class="road-tiny" style="left:65%;top:25%;width:2%;height:55%;"></div>
+
+  <div class="bldg" style="left:44%;top:5%;width:10%;height:18%;"></div>
+  <div class="bldg" style="left:56%;top:5%;width:8%;height:14%;"></div>
+  <div class="bldg" style="left:22%;top:32%;width:14%;height:10%;"></div>
+  <div class="bldg" style="left:44%;top:32%;width:9%;height:10%;"></div>
+  <div class="bldg" style="left:44%;top:46%;width:9%;height:8%;"></div>
+  <div class="bldg" style="left:44%;top:58%;width:9%;height:10%;"></div>
+  <div class="bldg" style="left:44%;top:70%;width:9%;height:9%;"></div>
+  <div class="bldg" style="left:44%;top:82%;width:9%;height:12%;"></div>
+  <div class="bldg" style="left:56%;top:32%;width:8%;height:10%;"></div>
+  <div class="bldg" style="left:56%;top:46%;width:8%;height:8%;"></div>
+  <div class="bldg" style="left:56%;top:58%;width:8%;height:10%;"></div>
+  <div class="bldg" style="left:56%;top:70%;width:8%;height:9%;"></div>
+  <div class="bldg" style="left:28%;top:32%;width:8%;height:10%;"></div>
+  <div class="bldg" style="left:28%;top:46%;width:8%;height:8%;"></div>
+  <div class="bldg" style="left:28%;top:58%;width:8%;height:10%;"></div>
+  <div class="bldg" style="left:28%;top:82%;width:8%;height:12%;"></div>
+  <div class="bldg" style="left:22%;top:10%;width:14%;height:18%;"></div>
+
+  <div class="bldg-named" style="left:28%;top:5%;width:12%;height:22%;background:#d4e8f0;border:2px solid #4285f4;color:#1a5276;">퇴계원<br>고등학교</div>
+
+  <div class="bldg-named" style="left:28%;top:46%;width:8%;height:10%;background:#dce8f8;border:2px solid #5b8dd9;color:#1a3a6b;">퇴계원<br>중학교</div>
+
+  <div class="bldg-named" style="left:44%;top:70%;width:9%;height:9%;background:#fce8e8;border:2px solid #c0392b;color:#7b241c;">엘병원</div>
+
+  <div class="marker" style="left:40%;top:32%;" onclick="show(0)">
+    <svg width="22" height="30" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="16" text-anchor="middle" font-size="8" font-weight="700" fill="#EA4335">1</text></svg>
+  </div>
+  <div class="marker" style="left:40%;top:38%;" onclick="show(1)">
+    <svg width="22" height="30" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="16" text-anchor="middle" font-size="8" font-weight="700" fill="#EA4335">2</text></svg>
+  </div>
+  <div class="marker" style="left:40%;top:45%;" onclick="show(2)">
+    <svg width="22" height="30" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="16" text-anchor="middle" font-size="8" font-weight="700" fill="#EA4335">3</text></svg>
+  </div>
+  <div class="marker" style="left:40%;top:53%;" onclick="show(3)">
+    <svg width="22" height="30" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="16" text-anchor="middle" font-size="8" font-weight="700" fill="#EA4335">4</text></svg>
+  </div>
+  <div class="marker" style="left:44%;top:53%;" onclick="show(4)">
+    <svg width="22" height="30" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="16" text-anchor="middle" font-size="8" font-weight="700" fill="#EA4335">5</text></svg>
+  </div>
+  <div class="marker" style="left:40%;top:57%;" onclick="show(5)">
+    <svg width="22" height="30" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="16" text-anchor="middle" font-size="8" font-weight="700" fill="#EA4335">6</text></svg>
+  </div>
+  <div class="marker" style="left:44%;top:57%;" onclick="show(6)">
+    <svg width="22" height="30" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="16" text-anchor="middle" font-size="8" font-weight="700" fill="#EA4335">7</text></svg>
+  </div>
+  <div class="marker" style="left:50%;top:58%;" onclick="show(7)">
+    <svg width="22" height="30" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="16" text-anchor="middle" font-size="8" font-weight="700" fill="#EA4335">8</text></svg>
+  </div>
+  <div class="marker" style="left:40%;top:64%;" onclick="show(8)">
+    <svg width="22" height="30" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="16" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">9</text></svg>
+  </div>
+  <div class="marker" style="left:44%;top:64%;" onclick="show(9)">
+    <svg width="22" height="30" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="16" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">10</text></svg>
+  </div>
+  <div class="marker" style="left:40%;top:72%;" onclick="show(10)">
+    <svg width="22" height="30" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="16" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">11</text></svg>
+  </div>
+  <div class="marker" style="left:40%;top:79%;" onclick="show(11)">
+    <svg width="22" height="30" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="16" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">12</text></svg>
   </div>
 
-  <div id="legend">
-    <span>📍 빨간 핀 = 약국 (클릭하면 정보 표시)</span>
-    <span>🏫 = 우리 학교</span>
+  <div class="compass">N</div>
+  <div class="scalebar">200m</div>
+
+  <div id="popup">
+    <div id="popup-bar"></div>
+    <div id="pbtn" onclick="closeP()">✕</div>
+    <div id="popup-name"></div>
+    <div class="prow" id="popup-phone"></div>
+    <div class="prow" id="popup-hours"></div>
   </div>
 </div>
-
-<!-- 팝업 -->
-<div id="overlay" onclick="closePopup()"></div>
-<div id="popup">
-  <h3 id="popup-name"></h3>
-  <p id="popup-address"></p>
-  <p id="popup-phone"></p>
-  <p id="popup-hours"></p>
-  <button class="close-btn" onclick="closePopup()">닫기</button>
 </div>
 
 <script>
-var pharmacies = [
-  {name:"🏥 하나로약국", address:"📍 퇴계원로 117 염광빌딩 101호", phone:"📞 031-571-7579", hours:"🕐 월~금 09:00~18:00 / 토 09:00~16:00 / 일 휴무"},
-  {name:"🏥 용한약국", address:"📍 퇴계원로 93 1층", phone:"📞 031-527-1188", hours:"🕐 월~금 09:00~22:00 / 토 09:00~21:00 / 공휴일 10:00~22:00 / 일 휴무"},
-  {name:"🏥 소중한약국", address:"📍 퇴계원로 70 1층", phone:"📞 031-571-7233", hours:"🕐 월~금 09:00~19:00 / 일 09:00~15:00 / 토·공휴일 휴무"},
-  {name:"🏥 세민약국", address:"📍 퇴계원로 51", phone:"📞 031-571-6734", hours:"🕐 월~금 09:00~20:00 / 토 09:00~21:00 / 공휴일 09:00~18:00 / 일 휴무"},
-  {name:"🏥 임약국", address:"📍 퇴계원로 52 다모아빌딩 103호", phone:"📞 031-574-8484", hours:"🕐 월~목 09:00~20:00 / 금 09:00~18:00 / 토 09:00~15:00 / 일 09:00~18:00"},
-  {name:"🏥 참조은약국", address:"📍 퇴계원로 48 가동 103호", phone:"📞 031-574-1251", hours:"🕐 월~금 09:00~18:00 / 토 09:00~13:00 / 일 휴무"},
-  {name:"🏥 비젼약국", address:"📍 퇴계원로 46-1", phone:"📞 031-574-1008", hours:"🕐 월~금 09:00~18:30 / 토 09:00~14:00 / 일 휴무"},
-  {name:"🏥 참사랑약국", address:"📍 퇴계원로46번길 1", phone:"📞 031-528-5767", hours:"🕐 월~금 09:00~20:00 / 토 09:00~21:00 / 일 휴무"},
-  {name:"🏥 문온누리약국", address:"📍 퇴계원로 29", phone:"📞 031-572-0409", hours:"🕐 월·수·금 08:00~21:00 / 화·목 08:00~19:00 / 토·일 08:00~16:00"},
-  {name:"🏥 굿모닝약국", address:"📍 퇴계원로 30 보성빌딩 1층", phone:"📞 031-572-7749", hours:"🕐 월~금 09:00~13:00 / 토 09:00~16:00 / 일 휴무"},
-  {name:"🏥 미엘약국", address:"📍 퇴계원로 20 1층", phone:"📞 031-571-2147", hours:"🕐 월~금 09:00~21:00 / 토·일·공휴일 09:00~18:00"},
-  {name:"🏥 정안약국", address:"📍 퇴계원로 16 1층 101,102호", phone:"📞 031-571-9574", hours:"🕐 월~금 09:00~20:30 / 토 09:00~17:00 / 일 휴무"}
+var data=[
+  {name:"1. 하나로약국",phone:"📞 031-571-7579",hours:"🕐 월~금 09:00~18:00 / 토 09:00~16:00 / 일 휴무"},
+  {name:"2. 용한약국",phone:"📞 031-527-1188",hours:"🕐 월~금 09:00~22:00 / 토 09:00~21:00 / 공휴일 10:00~22:00 / 일 휴무"},
+  {name:"3. 소중한약국",phone:"📞 031-571-7233",hours:"🕐 월~금 09:00~19:00 / 일 09:00~15:00 / 토·공휴일 휴무"},
+  {name:"4. 세민약국",phone:"📞 031-571-6734",hours:"🕐 월~금 09:00~20:00 / 토 09:00~21:00 / 공휴일 09:00~18:00 / 일 휴무"},
+  {name:"5. 임약국",phone:"📞 031-574-8484",hours:"🕐 월~목 09:00~20:00 / 금 09:00~18:00 / 토 09:00~15:00 / 일 09:00~18:00"},
+  {name:"6. 참조은약국",phone:"📞 031-574-1251",hours:"🕐 월~금 09:00~18:00 / 토 09:00~13:00 / 일 휴무"},
+  {name:"7. 비젼약국",phone:"📞 031-574-1008",hours:"🕐 월~금 09:00~18:30 / 토 09:00~14:00 / 일 휴무"},
+  {name:"8. 참사랑약국",phone:"📞 031-528-5767",hours:"🕐 월~금 09:00~20:00 / 토 09:00~21:00 / 일 휴무"},
+  {name:"9. 문온누리약국",phone:"📞 031-572-0409",hours:"🕐 월·수·금 08:00~21:00 / 화·목 08:00~19:00 / 토·일 08:00~16:00"},
+  {name:"10. 굿모닝약국",phone:"📞 031-572-7749",hours:"🕐 월~금 09:00~13:00 / 토 09:00~16:00 / 일 휴무"},
+  {name:"11. 미엘약국",phone:"📞 031-571-2147",hours:"🕐 월~금 09:00~21:00 / 토·일·공휴일 09:00~18:00"},
+  {name:"12. 정안약국",phone:"📞 031-571-9574",hours:"🕐 월~금 09:00~20:30 / 토 09:00~17:00 / 일 휴무"}
 ];
-
-function showPopup(idx) {
-  var p = pharmacies[idx];
-  document.getElementById('popup-name').innerText = p.name;
-  document.getElementById('popup-address').innerText = p.address;
-  document.getElementById('popup-phone').innerText = p.phone;
-  document.getElementById('popup-hours').innerText = p.hours;
-  document.getElementById('popup').style.display = 'block';
-  document.getElementById('overlay').style.display = 'block';
+function show(i){
+  var p=data[i];
+  document.getElementById('popup-name').textContent='🏥 '+p.name;
+  document.getElementById('popup-phone').textContent=p.phone;
+  document.getElementById('popup-hours').textContent=p.hours;
+  document.getElementById('popup').classList.add('open');
 }
-
-function closePopup() {
-  document.getElementById('popup').style.display = 'none';
-  document.getElementById('overlay').style.display = 'none';
-}
+function closeP(){document.getElementById('popup').classList.remove('open');}
 </script>
-</body>
-</html>
 """
 
 def reset():
@@ -481,8 +365,9 @@ elif st.session_state.menu == "medicine":
 
 elif st.session_state.menu == "pharmacy":
     st.markdown("### 🗺️ 주변 약국 찾기")
-    st.markdown("📍 빨간 핀을 클릭하면 약국 정보가 나와요!")
-    components.html(PHARMACY_MAP_HTML, height=520, scrolling=False)
+    st.markdown("📍 지도상의 빨간 마커(숫자)를 클릭하면 약국 정보가 하단에 표시됩니다.")
+    # 지도의 내부 높이가 580px이므로 여백을 고려하여 600으로 확장 조정했습니다.
+    components.html(PHARMACY_MAP_HTML, height=600, scrolling=False)
     st.markdown("<br>", unsafe_allow_html=True)
     if st.button("🔄 처음으로 돌아가기"):
         reset()
