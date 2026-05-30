@@ -1,3 +1,16 @@
+제시해주신 요구사항을 반영하여 PHARMACY_MAP_HTML 코드를 정밀 수정했습니다.
+
+🛠️ 주요 수정 사항
+퇴계원로46번길 문구 제거: 지도 중앙의 가로 도로 위에 표시되던 텍스트 레이블을 삭제했습니다.
+
+왕숙천 사이드 축소 및 중심부 확대: 오른쪽 왕숙천 영역의 너비를 줄이고, 학교 및 약국 마커들이 모여 있는 중심 영역이 더 크고 시원하게 보이도록 모든 건물과 도로, 마커의 가로 위치(left) 및 크기 비율을 대폭 재조정하여 확대 효과를 내었습니다.
+
+정보창(팝업) 배경색 수정: 마커를 클릭했을 때 아래에서 올라오는 팝업 창의 배경색을 불투명한 순백색(#ffffff)으로 고정하여, 지도 배경과 글자가 겹쳐 보이지 않고 깔끔하게 읽히도록 수정했습니다.
+
+전체 Streamlit 코드 중 PHARMACY_MAP_HTML 변수 부분만 아래 코드로 교체하시거나, 아래의 전체 코드를 복사해서 덮어씌우시면 됩니다. 다른 기능과 안내 문구는 그대로 유지되었습니다.
+
+💻 최종 수정된 전체 코드
+Python
 import streamlit as st
 import streamlit.components.v1 as components
 
@@ -140,12 +153,12 @@ CONVENIENCE = {
 PHARMACY_MAP_HTML = """
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-#wrap{position:relative;width:100%;height:580px;border-radius:12px;overflow:hidden;border:0.5px solid var(--color-border-tertiary);}
+#wrap{position:relative;width:100%;height:580px;border-radius:12px;overflow:hidden;border:0.5px solid #ccc;}
 #map{width:100%;height:100%;position:relative;background:#e9e5dc;overflow:hidden;}
 .park{position:absolute;background:#c9e6a3;border:0.5px solid #a8cc7a;}
 .water{position:absolute;background:#a8d4e8;}
 .bldg{position:absolute;background:#d6d2c9;border:0.5px solid #bbb8b0;border-radius:1px;}
-.bldg-named{position:absolute;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;text-align:center;line-height:1.3;font-family:sans-serif;}
+.bldg-named{position:absolute;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;text-align:center;line-height:1.3;font-family:sans-serif;}
 .road-main{position:absolute;background:#fff;}
 .road-sub{position:absolute;background:#f0ece4;}
 .road-tiny{position:absolute;background:#ede9e0;}
@@ -153,108 +166,100 @@ PHARMACY_MAP_HTML = """
 .road-name{position:absolute;font-size:9px;color:#666;white-space:nowrap;pointer-events:none;font-family:sans-serif;background:rgba(255,255,255,0.75);padding:1px 3px;border-radius:2px;}
 .marker{position:absolute;transform:translate(-50%,-100%);cursor:pointer;z-index:20;transition:transform 0.15s;}
 .marker:hover{transform:translate(-50%,-100%) scale(1.2);}
-.school-box{position:absolute;transform:translate(-50%,-50%);z-index:15;background:#fff;border:2px solid #4285f4;border-radius:6px;padding:3px 7px;font-size:10px;font-weight:700;color:#4285f4;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,0.18);font-family:sans-serif;}
 .compass{position:absolute;top:10px;right:10px;z-index:30;background:#fff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:0.5px solid #ccc;font-size:11px;font-weight:700;color:#e74c3c;box-shadow:0 1px 4px rgba(0,0,0,0.12);}
 .scalebar{position:absolute;bottom:10px;left:10px;z-index:30;background:rgba(255,255,255,0.88);border-bottom:2px solid #555;border-left:2px solid #555;border-right:2px solid #555;padding:2px 6px 4px;font-size:9px;color:#444;font-family:sans-serif;}
-#popup{position:absolute;bottom:0;left:0;right:0;z-index:50;background:var(--color-background-primary);border-radius:14px 14px 0 0;padding:14px 16px 18px;box-shadow:0 -4px 18px rgba(0,0,0,0.14);transform:translateY(100%);transition:transform 0.22s ease;border-top:0.5px solid var(--color-border-tertiary);}
+
+#popup{position:absolute;bottom:0;left:0;right:0;z-index:50;background:#ffffff !important;border-radius:14px 14px 0 0;padding:14px 16px 18px;box-shadow:0 -4px 18px rgba(0,0,0,0.18);transform:translateY(100%);transition:transform 0.22s ease;border-top:1px solid #ddd;}
 #popup.open{transform:translateY(0);}
-#popup-bar{width:32px;height:4px;background:var(--color-border-secondary);border-radius:2px;margin:0 auto 10px;}
-#popup-name{font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px;}
-.prow{font-size:13px;color:var(--color-text-secondary);margin-top:5px;line-height:1.5;}
-#pbtn{position:absolute;top:12px;right:12px;width:26px;height:26px;border-radius:50%;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);cursor:pointer;font-size:13px;color:var(--color-text-secondary);display:flex;align-items:center;justify-content:center;}
+#popup-bar{width:32px;height:4px;background:#bbb;border-radius:2px;margin:0 auto 10px;}
+#popup-name{font-size:15px;font-weight:bold;color:#111;margin-bottom:4px;}
+.prow{font-size:13px;color:#333;margin-top:5px;line-height:1.5;}
+#pbtn{position:absolute;top:12px;right:12px;width:26px;height:26px;border-radius:50%;background:#eee;border:none;cursor:pointer;font-size:13px;color:#555;display:flex;align-items:center;justify-content:center;}
 </style>
 
 <div id="wrap">
 <div id="map">
 
-  <div class="park" style="left:0;top:0;width:22%;height:38%;border-radius:0 0 30% 0;"></div>
-  <div class="park" style="right:0;top:0;width:18%;height:30%;border-radius:0 0 0 40%;"></div>
-  <div class="park" style="left:0;bottom:0;width:16%;height:25%;border-radius:0 40% 0 0;"></div>
-  <div class="park" style="right:0;bottom:0;width:20%;height:28%;border-radius:40% 0 0 0;"></div>
-  <div class="park" style="left:20%;top:0;width:18%;height:12%;"></div>
+  <div class="park" style="left:0;top:0;width:25%;height:38%;border-radius:0 0 30% 0;"></div>
+  <div class="park" style="right:0;top:0;width:10%;height:30%;border-radius:0 0 0 40%;"></div>
+  <div class="park" style="left:0;bottom:0;width:18%;height:25%;border-radius:0 40% 0 0;"></div>
+  <div class="park" style="right:0;bottom:0;width:12%;height:28%;border-radius:40% 0 0 0;"></div>
 
-  <div class="water" style="right:0;top:15%;width:6%;height:55%;border-radius:4px;"></div>
-  <div class="lbl" style="right:1%;top:35%;writing-mode:vertical-rl;font-size:8px;color:#5599bb;">왕숙천</div>
+  <div class="water" style="right:0;top:0;width:4%;height:100%;opacity:0.8;"></div>
+  <div class="lbl" style="right:0.5%;top:45%;writing-mode:vertical-rl;font-size:8px;color:#5599bb;">왕숙천</div>
 
-  <div class="road-main" style="left:38%;top:0;width:5%;height:100%;"></div>
-  <div style="position:absolute;left:40.3%;top:0;width:1.5px;height:100%;background:repeating-linear-gradient(180deg,#f5c518 0,#f5c518 16px,transparent 16px,transparent 28px);opacity:0.7;pointer-events:none;z-index:3;"></div>
-  <div class="road-name" style="left:41%;top:6%;writing-mode:vertical-rl;letter-spacing:1px;z-index:5;">퇴계원로</div>
+  <div class="road-main" style="left:48%;top:0;width:6%;height:100%;"></div>
+  <div style="position:absolute;left:50.8%;top:0;width:2px;height:100%;background:repeating-linear-gradient(180deg,#f5c518 0,#f5c518 16px,transparent 16px,transparent 28px);opacity:0.7;pointer-events:none;z-index:3;"></div>
+  <div class="road-name" style="left:55%;top:6%;writing-mode:vertical-rl;letter-spacing:1px;z-index:5;">퇴계원로</div>
 
-  <div class="road-sub" style="left:38%;top:56%;width:30%;height:3%;"></div>
-  <div class="road-name" style="left:50%;top:54%;font-size:8px;">퇴계원로46번길</div>
+  <div class="road-sub" style="left:10%;top:30%;width:85%;height:3%;"></div>
+  <div class="road-sub" style="left:10%;top:44%;width:85%;height:2.5%;"></div>
+  <div class="road-sub" style="left:10%;top:56%;width:85%;height:3.5%;"></div> <div class="road-sub" style="left:10%;top:68%;width:85%;height:2.5%;"></div>
+  <div class="road-sub" style="left:10%;top:80%;width:85%;height:2.5%;"></div>
 
-  <div class="road-sub" style="left:20%;top:30%;width:55%;height:2.5%;"></div>
-  <div class="road-sub" style="left:20%;top:44%;width:55%;height:2%;"></div>
-  <div class="road-sub" style="left:20%;top:68%;width:55%;height:2%;"></div>
-  <div class="road-sub" style="left:20%;top:80%;width:55%;height:2%;"></div>
+  <div class="road-tiny" style="left:30%;top:10%;width:2.5%;height:80%;"></div>
+  <div class="road-tiny" style="left:70%;top:20%;width:2.5%;height:65%;"></div>
+  <div class="road-tiny" style="left:82%;top:25%;width:2.5%;height:55%;"></div>
 
-  <div class="road-tiny" style="left:25%;top:10%;width:2%;height:80%;"></div>
-  <div class="road-tiny" style="left:55%;top:20%;width:2%;height:65%;"></div>
-  <div class="road-tiny" style="left:65%;top:25%;width:2%;height:55%;"></div>
+  <div class="bldg" style="left:56%;top:5%;width:12%;height:18%;"></div>
+  <div class="bldg" style="left:70%;top:5%;width:10%;height:14%;"></div>
+  <div class="bldg" style="left:15%;top:34%;width:13%;height:9%;"></div>
+  <div class="bldg" style="left:56%;top:34%;width:11%;height:9%;"></div>
+  <div class="bldg" style="left:56%;top:48%;width:11%;height:7%;"></div>
+  <div class="bldg" style="left:56%;top:61%;width:11%;height:6%;"></div>
+  <div class="bldg" style="left:56%;top:72%;width:11%;height:7%;"></div>
+  <div class="bldg" style="left:70%;top:34%;width:10%;height:9%;"></div>
+  <div class="bldg" style="left:70%;top:48%;width:10%;height:7%;"></div>
+  <div class="bldg" style="left:70%;top:61%;width:10%;height:6%;"></div>
+  <div class="bldg" style="left:35%;top:34%;width:10%;height:9%;"></div>
+  <div class="bldg" style="left:35%;top:48%;width:10%;height:7%;"></div>
+  <div class="bldg" style="left:35%;top:61%;width:10%;height:8%;"></div>
 
-  <div class="bldg" style="left:44%;top:5%;width:10%;height:18%;"></div>
-  <div class="bldg" style="left:56%;top:5%;width:8%;height:14%;"></div>
-  <div class="bldg" style="left:22%;top:32%;width:14%;height:10%;"></div>
-  <div class="bldg" style="left:44%;top:32%;width:9%;height:10%;"></div>
-  <div class="bldg" style="left:44%;top:46%;width:9%;height:8%;"></div>
-  <div class="bldg" style="left:44%;top:58%;width:9%;height:10%;"></div>
-  <div class="bldg" style="left:44%;top:70%;width:9%;height:9%;"></div>
-  <div class="bldg" style="left:44%;top:82%;width:9%;height:12%;"></div>
-  <div class="bldg" style="left:56%;top:32%;width:8%;height:10%;"></div>
-  <div class="bldg" style="left:56%;top:46%;width:8%;height:8%;"></div>
-  <div class="bldg" style="left:56%;top:58%;width:8%;height:10%;"></div>
-  <div class="bldg" style="left:56%;top:70%;width:8%;height:9%;"></div>
-  <div class="bldg" style="left:28%;top:32%;width:8%;height:10%;"></div>
-  <div class="bldg" style="left:28%;top:46%;width:8%;height:8%;"></div>
-  <div class="bldg" style="left:28%;top:58%;width:8%;height:10%;"></div>
-  <div class="bldg" style="left:28%;top:82%;width:8%;height:12%;"></div>
-  <div class="bldg" style="left:22%;top:10%;width:14%;height:18%;"></div>
+  <div class="bldg-named" style="left:34%;top:5%;width:13%;height:22%;background:#d4e8f0;border:2px solid #4285f4;color:#1a5276;font-size:11px;">퇴계원<br>고등학교</div>
 
-  <div class="bldg-named" style="left:28%;top:5%;width:12%;height:22%;background:#d4e8f0;border:2px solid #4285f4;color:#1a5276;">퇴계원<br>고등학교</div>
+  <div class="bldg-named" style="left:35%;top:48%;width:10%;height:11%;background:#dce8f8;border:2px solid #5b8dd9;color:#1a3a6b;">퇴계원<br>중학교</div>
 
-  <div class="bldg-named" style="left:28%;top:46%;width:8%;height:10%;background:#dce8f8;border:2px solid #5b8dd9;color:#1a3a6b;">퇴계원<br>중학교</div>
+  <div class="bldg-named" style="left:56%;top:72%;width:11%;height:7%;background:#fce8e8;border:2px solid #c0392b;color:#7b241c;">엘병원</div>
 
-  <div class="bldg-named" style="left:44%;top:70%;width:9%;height:9%;background:#fce8e8;border:2px solid #c0392b;color:#7b241c;">엘병원</div>
-
-  <div class="marker" style="left:40%;top:32%;" onclick="show(0)">
-    <svg width="22" height="30" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="16" text-anchor="middle" font-size="8" font-weight="700" fill="#EA4335">1</text></svg>
+  <div class="marker" style="left:51%;top:32%;" onclick="show(0)">
+    <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">1</text></svg>
   </div>
-  <div class="marker" style="left:40%;top:38%;" onclick="show(1)">
-    <svg width="22" height="30" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="16" text-anchor="middle" font-size="8" font-weight="700" fill="#EA4335">2</text></svg>
+  <div class="marker" style="left:51%;top:38%;" onclick="show(1)">
+    <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">2</text></svg>
   </div>
-  <div class="marker" style="left:40%;top:45%;" onclick="show(2)">
-    <svg width="22" height="30" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="16" text-anchor="middle" font-size="8" font-weight="700" fill="#EA4335">3</text></svg>
+  <div class="marker" style="left:51%;top:45%;" onclick="show(2)">
+    <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">3</text></svg>
   </div>
-  <div class="marker" style="left:40%;top:53%;" onclick="show(3)">
-    <svg width="22" height="30" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="16" text-anchor="middle" font-size="8" font-weight="700" fill="#EA4335">4</text></svg>
+  <div class="marker" style="left:51%;top:53%;" onclick="show(3)">
+    <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">4</text></svg>
   </div>
-  <div class="marker" style="left:44%;top:53%;" onclick="show(4)">
-    <svg width="22" height="30" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="16" text-anchor="middle" font-size="8" font-weight="700" fill="#EA4335">5</text></svg>
+  <div class="marker" style="left:56%;top:53%;" onclick="show(4)">
+    <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">5</text></svg>
   </div>
-  <div class="marker" style="left:40%;top:57%;" onclick="show(5)">
-    <svg width="22" height="30" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="16" text-anchor="middle" font-size="8" font-weight="700" fill="#EA4335">6</text></svg>
+  <div class="marker" style="left:51%;top:57%;" onclick="show(5)">
+    <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">6</text></svg>
   </div>
-  <div class="marker" style="left:44%;top:57%;" onclick="show(6)">
-    <svg width="22" height="30" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="16" text-anchor="middle" font-size="8" font-weight="700" fill="#EA4335">7</text></svg>
+  <div class="marker" style="left:56%;top:57%;" onclick="show(6)">
+    <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">7</text></svg>
   </div>
-  <div class="marker" style="left:50%;top:58%;" onclick="show(7)">
-    <svg width="22" height="30" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="16" text-anchor="middle" font-size="8" font-weight="700" fill="#EA4335">8</text></svg>
+  <div class="marker" style="left:63%;top:58%;" onclick="show(7)">
+    <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">8</text></svg>
   </div>
-  <div class="marker" style="left:40%;top:64%;" onclick="show(8)">
-    <svg width="22" height="30" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="16" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">9</text></svg>
+  <div class="marker" style="left:51%;top:64%;" onclick="show(8)">
+    <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">9</text></svg>
   </div>
-  <div class="marker" style="left:44%;top:64%;" onclick="show(9)">
-    <svg width="22" height="30" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="16" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">10</text></svg>
+  <div class="marker" style="left:56%;top:64%;" onclick="show(9)">
+    <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">10</text></svg>
   </div>
-  <div class="marker" style="left:40%;top:72%;" onclick="show(10)">
-    <svg width="22" height="30" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="16" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">11</text></svg>
+  <div class="marker" style="left:51%;top:72%;" onclick="show(10)">
+    <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">11</text></svg>
   </div>
-  <div class="marker" style="left:40%;top:79%;" onclick="show(11)">
-    <svg width="22" height="30" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="16" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">12</text></svg>
+  <div class="marker" style="left:51%;top:79%;" onclick="show(11)">
+    <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">12</text></svg>
   </div>
 
   <div class="compass">N</div>
-  <div class="scalebar">200m</div>
+  <div class="scalebar">150m</div>
 
   <div id="popup">
     <div id="popup-bar"></div>
@@ -366,7 +371,6 @@ elif st.session_state.menu == "medicine":
 elif st.session_state.menu == "pharmacy":
     st.markdown("### 🗺️ 주변 약국 찾기")
     st.markdown("📍 지도상의 빨간 마커(숫자)를 클릭하면 약국 정보가 하단에 표시됩니다.")
-    # 지도의 내부 높이가 580px이므로 여백을 고려하여 600으로 확장 조정했습니다.
     components.html(PHARMACY_MAP_HTML, height=600, scrolling=False)
     st.markdown("<br>", unsafe_allow_html=True)
     if st.button("🔄 처음으로 돌아가기"):
