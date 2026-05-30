@@ -155,7 +155,6 @@ PHARMACY_MAP_HTML = """
 .marker:hover{transform:translate(-50%,-100%) scale(1.2);}
 .compass{position:absolute;top:10px;right:10px;z-index:30;background:#fff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:0.5px solid #ccc;font-size:11px;font-weight:700;color:#e74c3c;box-shadow:0 1px 4px rgba(0,0,0,0.12);}
 .scalebar{position:absolute;bottom:10px;left:10px;z-index:30;background:rgba(255,255,255,0.88);border-bottom:2px solid #555;border-left:2px solid #555;border-right:2px solid #555;padding:2px 6px 4px;font-size:9px;color:#444;font-family:sans-serif;}
-
 #popup{position:absolute;bottom:0;left:0;right:0;z-index:50;background:#ffffff !important;border-radius:14px 14px 0 0;padding:14px 16px 18px;box-shadow:0 -4px 18px rgba(0,0,0,0.18);transform:translateY(100%);transition:transform 0.22s ease;border-top:1px solid #ddd;}
 #popup.open{transform:translateY(0);}
 #popup-bar{width:32px;height:4px;background:#bbb;border-radius:2px;margin:0 auto 10px;}
@@ -177,11 +176,12 @@ PHARMACY_MAP_HTML = """
 
   <div class="road-main" style="left:48%;top:0;width:6%;height:100%;"></div>
   <div style="position:absolute;left:50.8%;top:0;width:2px;height:100%;background:repeating-linear-gradient(180deg,#f5c518 0,#f5c518 16px,transparent 16px,transparent 28px);opacity:0.7;pointer-events:none;z-index:3;"></div>
-  <div class="road-name" style="left:55%;top:6%;writing-mode:vertical-rl;letter-spacing:1px;z-index:5;">퇴계원로</div>
+  <div class="road-name" style="left:55%;top:6%;writing-mode:vertical-rl;letter-spacing:1px;z-index:5;">橫퇴계원로</div>
 
   <div class="road-sub" style="left:10%;top:30%;width:85%;height:3%;"></div>
   <div class="road-sub" style="left:10%;top:44%;width:85%;height:2.5%;"></div>
-  <div class="road-sub" style="left:10%;top:56%;width:85%;height:3.5%;"></div> <div class="road-sub" style="left:10%;top:68%;width:85%;height:2.5%;"></div>
+  <div class="road-sub" style="left:10%;top:56%;width:85%;height:3.5%;"></div>
+  <div class="road-sub" style="left:10%;top:68%;width:85%;height:2.5%;"></div>
   <div class="road-sub" style="left:10%;top:80%;width:85%;height:2.5%;"></div>
 
   <div class="road-tiny" style="left:30%;top:10%;width:2.5%;height:80%;"></div>
@@ -203,45 +203,43 @@ PHARMACY_MAP_HTML = """
   <div class="bldg" style="left:35%;top:61%;width:10%;height:8%;"></div>
 
   <div class="bldg-named" style="left:34%;top:5%;width:13%;height:22%;background:#d4e8f0;border:2px solid #4285f4;color:#1a5276;font-size:11px;">퇴계원<br>고등학교</div>
-
   <div class="bldg-named" style="left:35%;top:48%;width:10%;height:11%;background:#dce8f8;border:2px solid #5b8dd9;color:#1a3a6b;">퇴계원<br>중학교</div>
-
   <div class="bldg-named" style="left:56%;top:72%;width:11%;height:7%;background:#fce8e8;border:2px solid #c0392b;color:#7b241c;">엘병원</div>
 
-  <div class="marker" style="left:51%;top:32%;" onclick="show(0)">
+  <div class="marker" style="left:43%;top:31%;" onclick="show(0)">
     <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">1</text></svg>
   </div>
-  <div class="marker" style="left:51%;top:38%;" onclick="show(1)">
+  <div class="marker" style="left:43%;top:37%;" onclick="show(1)">
     <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">2</text></svg>
   </div>
-  <div class="marker" style="left:51%;top:45%;" onclick="show(2)">
+  <div class="marker" style="left:43%;top:43%;" onclick="show(2)">
     <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">3</text></svg>
   </div>
-  <div class="marker" style="left:51%;top:53%;" onclick="show(3)">
+  <div class="marker" style="left:43%;top:50%;" onclick="show(3)">
     <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">4</text></svg>
   </div>
-  <div class="marker" style="left:56%;top:53%;" onclick="show(4)">
+  <div class="marker" style="left:61%;top:52%;" onclick="show(4)">
     <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">5</text></svg>
   </div>
-  <div class="marker" style="left:51%;top:57%;" onclick="show(5)">
+  <div class="marker" style="left:43%;top:57%;" onclick="show(5)">
     <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">6</text></svg>
   </div>
-  <div class="marker" style="left:56%;top:57%;" onclick="show(6)">
+  <div class="marker" style="left:61%;top:58%;" onclick="show(6)">
     <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">7</text></svg>
   </div>
-  <div class="marker" style="left:63%;top:58%;" onclick="show(7)">
+  <div class="marker" style="left:68%;top:58%;" onclick="show(7)">
     <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">8</text></svg>
   </div>
-  <div class="marker" style="left:51%;top:64%;" onclick="show(8)">
+  <div class="marker" style="left:42%;top:64%;" onclick="show(8)">
     <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">9</text></svg>
   </div>
-  <div class="marker" style="left:56%;top:64%;" onclick="show(9)">
+  <div class="marker" style="left:61%;top:65%;" onclick="show(9)">
     <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">10</text></svg>
   </div>
-  <div class="marker" style="left:51%;top:72%;" onclick="show(10)">
+  <div class="marker" style="left:42%;top:72%;" onclick="show(10)">
     <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">11</text></svg>
   </div>
-  <div class="marker" style="left:51%;top:79%;" onclick="show(11)">
+  <div class="marker" style="left:42%;top:80%;" onclick="show(11)">
     <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.4 0 12c0 8.4 12 20 12 20s12-11.6 12-20C24 5.4 18.6 0 12 0z" fill="#EA4335"/><circle cx="12" cy="12" r="6" fill="white"/><text x="12" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#EA4335">12</text></svg>
   </div>
 
