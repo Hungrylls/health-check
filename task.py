@@ -37,17 +37,11 @@ st.markdown("""
         box-shadow: 0 2px 12px rgba(0,0,0,0.08);
         line-height: 2;
     }
-    .urgent {
-        color: #cc0000;
-        font-weight: bold;
-    }
+    .urgent { color: #cc0000; font-weight: bold; }
     </style>
 """, unsafe_allow_html=True)
 
-# ── 카카오 API 키 ─────────────────────────────────────────
 KAKAO_API_KEY = "2a3d252c9366dd5397faac80ddca611f"
-
-# ── 데이터 ──────────────────────────────────────────────
 
 GUIDE = {
     "1. 머리가 아파요 (두통)": """
@@ -102,13 +96,13 @@ MEDICINE = {
 • <b>대표 상품:</b> 판콜, 판피린, 테라플루<br>
 • <b>언제 먹나요:</b> 콧물, 코막힘, 기침, 몸살 기운이 동시에 있을 때<br>
 • <b>복용 방법:</b> 초기 감기 증상 완화용<br>
-• <span class='urgent'>⚠️ 주의사항:</span> 강한 졸음을 유발하므로 하교 길이나 운전, 공부 전에 주의. 다른 진통제와 중복해서 먹지 마세요. 아세트아미노펜 성분이 포함된 경우가 많아 타이레놀 등과 함께 복용하면 간에 무리가 갈 수 있습니다.
+• <span class='urgent'>⚠️ 주의사항:</span> 강한 졸음을 유발하므로 하교 길이나 운전, 공부 전에 주의. 다른 진통제와 중복해서 먹지 마세요.
 """,
     "4. 소화제": """
 • <b>대표 상품:</b> 훼스탈, 베아제, 닥터베아제<br>
 • <b>언제 먹나요:</b> 과식 후 더부룩함, 소화가 잘 안 될 때, 명치가 답답할 때<br>
 • <b>복용 방법:</b> 식후 바로 복용하는 것이 가장 효과적입니다<br>
-• <span class='urgent'>⚠️ 주의사항:</span> 소화제는 증상 완화용이므로 복통이 심하거나 며칠째 지속된다면 단순 소화불량이 아닐 수 있으니 병원을 방문하세요.
+• <span class='urgent'>⚠️ 주의사항:</span> 복통이 심하거나 며칠째 지속된다면 병원을 방문하세요.
 """,
 }
 
@@ -117,35 +111,162 @@ CONVENIENCE = {
 • <b>살 수 있는 약:</b> 타이레놀 (아세트아미노펜 500mg)<br>
 • <b>편의점 브랜드:</b> 타이레놀 이알, 게보린 소프트 등<br>
 • <b>언제 사나요:</b> 두통, 발열, 몸살이 갑자기 생겼을 때<br>
-• <span class='urgent'>⚠️ 주의:</span> 편의점 약은 1~2회 응급용입니다. 증상이 지속되면 약국에서 제대로 된 약을 구매하세요.
+• <span class='urgent'>⚠️ 주의:</span> 편의점 약은 1~2회 응급용입니다. 증상이 지속되면 약국에서 구매하세요.
 """,
     "🤢 소화제": """
 • <b>살 수 있는 약:</b> 훼스탈 플러스, 베아제<br>
 • <b>언제 사나요:</b> 과식 후 더부룩하거나 소화가 안 될 때<br>
 • <b>복용 방법:</b> 식후 바로 복용<br>
-• <span class='urgent'>⚠️ 주의:</span> 복통이 심하다면 소화제보다 병원 방문을 우선하세요.
+• <span class='urgent'>⚠️ 주의:</span> 복통이 심하다면 병원 방문을 우선하세요.
 """,
     "🤧 감기약": """
 • <b>살 수 있는 약:</b> 판콜에이, 화이투벤 등<br>
 • <b>언제 사나요:</b> 콧물, 코막힘, 가벼운 몸살 기운이 있을 때<br>
 • <b>복용 방법:</b> 식후 복용, 졸음 유발 주의<br>
-• <span class='urgent'>⚠️ 주의:</span> 다른 진통제(타이레놀 등)와 함께 먹으면 안 돼요. 성분이 겹칠 수 있어요.
+• <span class='urgent'>⚠️ 주의:</span> 다른 진통제(타이레놀 등)와 함께 먹으면 안 돼요.
 """,
     "🩹 외용 상처약": """
-• <b>살 수 있는 약:</b> 대일밴드, 후시딘, 마데카솔 (일부 편의점)<br>
+• <b>살 수 있는 약:</b> 대일밴드, 후시딘, 마데카솔<br>
 • <b>언제 사나요:</b> 가벼운 찰과상, 작은 상처가 났을 때<br>
 • <b>사용 방법:</b> 상처를 물로 씻은 후 연고 바르고 밴드로 덮기<br>
-• <span class='urgent'>⚠️ 주의:</span> 상처가 깊거나 출혈이 심하면 편의점 약으로는 부족해요. 병원에 가세요.
+• <span class='urgent'>⚠️ 주의:</span> 상처가 깊거나 출혈이 심하면 병원에 가세요.
 """,
     "🏃 파스 (근육통)": """
 • <b>살 수 있는 약:</b> 제일파스, 신신파스, 쿨파스<br>
 • <b>언제 사나요:</b> 근육통, 어깨 결림, 타박상 초기<br>
 • <b>사용 방법:</b> 아픈 부위에 붙이고 4~8시간 후 제거<br>
-• <span class='urgent'>⚠️ 주의:</span> 상처가 난 피부나 점막 부위에는 붙이지 마세요.
+• <span class='urgent'>⚠️ 주의:</span> 상처가 난 피부에는 붙이지 마세요.
 """,
 }
 
-# ── 세션 초기화 ──────────────────────────────────────────
+PHARMACIES = [
+    {
+        "name": "하나로약국",
+        "address": "경기 남양주시 퇴계원읍 퇴계원로 117 염광빌딩동 101호",
+        "phone": "031-571-7579",
+        "hours": "월~금 09:00~18:00 / 토 09:00~16:00 / 일 휴무",
+        "lat": 37.6542, "lng": 127.1328
+    },
+    {
+        "name": "용한약국",
+        "address": "경기 남양주시 퇴계원읍 퇴계원로 93 1층",
+        "phone": "031-527-1188",
+        "hours": "월~금 09:00~22:00 / 토 09:00~21:00 / 공휴일 10:00~22:00 / 일 휴무",
+        "lat": 37.6538, "lng": 127.1318
+    },
+    {
+        "name": "소중한약국",
+        "address": "경기 남양주시 퇴계원읍 퇴계원로 70 1층",
+        "phone": "031-571-7233",
+        "hours": "월~금 09:00~19:00 / 일 09:00~15:00 / 토·공휴일 휴무",
+        "lat": 37.6533, "lng": 127.1308
+    },
+    {
+        "name": "세민약국",
+        "address": "경기 남양주시 퇴계원읍 퇴계원로 51",
+        "phone": "031-571-6734",
+        "hours": "월~금 09:00~20:00 / 토 09:00~21:00 / 공휴일 09:00~18:00 / 일 휴무",
+        "lat": 37.6528, "lng": 127.1298
+    },
+    {
+        "name": "임약국",
+        "address": "경기 남양주시 퇴계원읍 퇴계원로 52 다모아빌딩 1층 103호",
+        "phone": "031-574-8484",
+        "hours": "월~목 09:00~20:00 / 금 09:00~18:00 / 토 09:00~15:00 / 일 09:00~18:00",
+        "lat": 37.6526, "lng": 127.1296
+    },
+    {
+        "name": "참조은약국",
+        "address": "경기 남양주시 퇴계원읍 퇴계원로 48 가동 103호",
+        "phone": "031-574-1251",
+        "hours": "월~금 09:00~18:00 / 토 09:00~13:00 / 일 휴무",
+        "lat": 37.6524, "lng": 127.1294
+    },
+    {
+        "name": "비젼약국",
+        "address": "경기 남양주시 퇴계원읍 퇴계원로 46-1",
+        "phone": "031-574-1008",
+        "hours": "월~금 09:00~18:30 / 토 09:00~14:00 / 일 휴무",
+        "lat": 37.6522, "lng": 127.1292
+    },
+    {
+        "name": "참사랑약국",
+        "address": "경기 남양주시 퇴계원읍 퇴계원로46번길 1",
+        "phone": "031-528-5767",
+        "hours": "월~금 09:00~20:00 / 토 09:00~21:00 / 일 휴무",
+        "lat": 37.6520, "lng": 127.1290
+    },
+    {
+        "name": "문온누리약국",
+        "address": "경기 남양주시 퇴계원읍 퇴계원로 29",
+        "phone": "031-572-0409",
+        "hours": "월·수·금 08:00~21:00 / 화·목 08:00~19:00 / 토·일 08:00~16:00",
+        "lat": 37.6516, "lng": 127.1285
+    },
+    {
+        "name": "굿모닝약국",
+        "address": "경기 남양주시 퇴계원읍 퇴계원로 30 보성빌딩 1층",
+        "phone": "031-572-7749",
+        "hours": "월~금 09:00~13:00 / 토 09:00~16:00 / 일 휴무",
+        "lat": 37.6518, "lng": 127.1287
+    },
+    {
+        "name": "미엘약국",
+        "address": "경기 남양주시 퇴계원읍 퇴계원로 20 1층",
+        "phone": "031-571-2147",
+        "hours": "월~금 09:00~21:00 / 토·일·공휴일 09:00~18:00",
+        "lat": 37.6514, "lng": 127.1283
+    },
+    {
+        "name": "정안약국",
+        "address": "경기 남양주시 퇴계원읍 퇴계원로 16 1층 101,102호",
+        "phone": "031-571-9574",
+        "hours": "월~금 09:00~20:30 / 토 09:00~17:00 / 일 휴무",
+        "lat": 37.6512, "lng": 127.1281
+    },
+]
+
+def pharmacy_map_html(pharmacies, api_key):
+    markers_js = ""
+    for p in pharmacies:
+        markers_js += f"""
+        (function() {{
+            var marker = new kakao.maps.Marker({{
+                map: map,
+                position: new kakao.maps.LatLng({p['lat']}, {p['lng']}),
+                title: '{p['name']}'
+            }});
+            var content = '<div style="padding:10px;min-width:200px;font-size:13px;line-height:1.8;">' +
+                '<b>🏥 {p['name']}</b><br>' +
+                '📍 {p['address']}<br>' +
+                '📞 {p['phone']}<br>' +
+                '🕐 {p['hours']}' +
+                '</div>';
+            var infowindow = new kakao.maps.InfoWindow({{ content: content, removable: true }});
+            kakao.maps.event.addListener(marker, 'click', function() {{
+                infowindow.open(map, marker);
+            }});
+        }})();
+        """
+
+    return f"""
+    <div style="font-family: sans-serif;">
+      <div id="map" style="width:100%; height:450px; border-radius:12px;"></div>
+      <p style="font-size:13px; color:#666; margin-top:8px;">📍 약국 마커를 클릭하면 상세 정보가 나와요!</p>
+    </div>
+    <script type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey={api_key}">
+    </script>
+    <script>
+      var mapContainer = document.getElementById('map');
+      var mapOption = {{
+        center: new kakao.maps.LatLng(37.6528, 127.1300),
+        level: 4
+      }};
+      var map = new kakao.maps.Map(mapContainer, mapOption);
+      {markers_js}
+    </script>
+    """
 
 def reset():
     st.session_state.menu = None
@@ -158,76 +279,9 @@ for key in ["menu", "symptom", "injury", "medicine", "convenience"]:
     if key not in st.session_state:
         st.session_state[key] = None
 
-# ── 카카오 지도 HTML ─────────────────────────────────────
-
-def kakao_map_html(api_key):
-    return f"""
-    <div style="font-family: sans-serif;">
-      <div id="map" style="width:100%; height:400px; border-radius:12px;"></div>
-      <div id="result" style="margin-top:12px;"></div>
-    </div>
-    <script type="text/javascript"
-      src="//dapi.kakao.com/v2/maps/sdk.js?appkey={api_key}&libraries=services">
-    </script>
-    <script>
-      var mapContainer = document.getElementById('map');
-      var mapOption = {{
-        center: new kakao.maps.LatLng(37.5665, 126.9780),
-        level: 4
-      }};
-      var map = new kakao.maps.Map(mapContainer, mapOption);
-      var ps = new kakao.maps.services.Places();
-      var infowindow = new kakao.maps.InfoWindow({{zIndex:1}});
-
-      if (navigator.geolocation) {{
-        navigator.geolocation.getCurrentPosition(function(pos) {{
-          var lat = pos.coords.latitude;
-          var lng = pos.coords.longitude;
-          var locPos = new kakao.maps.LatLng(lat, lng);
-          map.setCenter(locPos);
-
-          new kakao.maps.Marker({{
-            map: map,
-            position: locPos,
-            title: '현재 위치'
-          }});
-
-          ps.keywordSearch('약국', function(data, status) {{
-            if (status === kakao.maps.services.Status.OK) {{
-              var resultDiv = document.getElementById('result');
-              resultDiv.innerHTML = '<b>📍 주변 약국 목록</b><br><br>';
-              for (var i = 0; i < data.length; i++) {{
-                (function(place) {{
-                  var marker = new kakao.maps.Marker({{
-                    map: map,
-                    position: new kakao.maps.LatLng(place.y, place.x)
-                  }});
-                  kakao.maps.event.addListener(marker, 'click', function() {{
-                    infowindow.setContent('<div style="padding:6px;font-size:13px;">' + place.place_name + '<br>' + (place.road_address_name || place.address_name) + '<br>' + (place.phone || '전화번호 없음') + '</div>');
-                    infowindow.open(map, marker);
-                  }});
-                  resultDiv.innerHTML += '🏥 <b>' + place.place_name + '</b> — ' + (place.road_address_name || place.address_name) + '<br>';
-                }})(data[i]);
-              }}
-            }}
-          }}, {{location: locPos, radius: 1000}});
-        }});
-      }} else {{
-        ps.keywordSearch('서울 약국', function(data, status) {{
-          if (status === kakao.maps.services.Status.OK) {{
-            map.setCenter(new kakao.maps.LatLng(data[0].y, data[0].x));
-          }}
-        }});
-      }}
-    </script>
-    """
-
-# ── UI ───────────────────────────────────────────────────
-
 st.markdown("## 🏥 보건 도우미")
 st.markdown("---")
 
-# ── 메인 메뉴 ────────────────────────────────────────────
 if st.session_state.menu is None:
     st.markdown("### 원하는 항목을 선택하세요")
     if st.button("💊 [1] 증상별 대처 가이드"):
@@ -243,7 +297,6 @@ if st.session_state.menu is None:
         st.session_state.menu = "convenience"
         st.rerun()
 
-# ── 증상별 대처 가이드 ───────────────────────────────────
 elif st.session_state.menu == "guide":
     if st.session_state.symptom is None:
         st.markdown("### 💊 증상별 대처 가이드")
@@ -265,13 +318,11 @@ elif st.session_state.menu == "guide":
     else:
         st.markdown(f"### {st.session_state.symptom}")
         st.markdown(f"<div class='result-box'>{GUIDE[st.session_state.symptom]}</div>", unsafe_allow_html=True)
-
     st.markdown("<br>", unsafe_allow_html=True)
     if st.button("🔄 처음으로 돌아가기"):
         reset()
         st.rerun()
 
-# ── 상비약 백과 ──────────────────────────────────────────
 elif st.session_state.menu == "medicine":
     if st.session_state.medicine is None:
         st.markdown("### 🏠 우리 집 상비약 백과")
@@ -283,25 +334,20 @@ elif st.session_state.menu == "medicine":
     else:
         st.markdown(f"### {st.session_state.medicine}")
         st.markdown(f"<div class='result-box'>{MEDICINE[st.session_state.medicine]}</div>", unsafe_allow_html=True)
-
     st.markdown("<br>", unsafe_allow_html=True)
     if st.button("🔄 처음으로 돌아가기"):
         reset()
         st.rerun()
 
-# ── 주변 약국 찾기 ───────────────────────────────────────
 elif st.session_state.menu == "pharmacy":
     st.markdown("### 🗺️ 주변 약국 찾기")
-    st.markdown("현재 위치 기준으로 1km 이내 약국을 보여줍니다.")
-    st.info("📍 브라우저에서 위치 접근 허용을 눌러주세요!")
-    components.html(kakao_map_html(KAKAO_API_KEY), height=550, scrolling=True)
-
+    st.markdown("마커를 클릭하면 약국 정보가 나와요! 📍")
+    components.html(pharmacy_map_html(PHARMACIES, KAKAO_API_KEY), height=520, scrolling=False)
     st.markdown("<br>", unsafe_allow_html=True)
     if st.button("🔄 처음으로 돌아가기"):
         reset()
         st.rerun()
 
-# ── 편의점 상비약 ─────────────────────────────────────────
 elif st.session_state.menu == "convenience":
     if st.session_state.convenience is None:
         st.markdown("### 🏪 편의점 상비약 안내")
@@ -313,7 +359,6 @@ elif st.session_state.menu == "convenience":
     else:
         st.markdown(f"### {st.session_state.convenience}")
         st.markdown(f"<div class='result-box'>{CONVENIENCE[st.session_state.convenience]}</div>", unsafe_allow_html=True)
-
     st.markdown("<br>", unsafe_allow_html=True)
     if st.button("🔄 처음으로 돌아가기"):
         reset()
