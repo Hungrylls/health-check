@@ -139,132 +139,75 @@ CONVENIENCE = {
 """,
 }
 
+# 약국 데이터 (주소로 geocoding해서 지도에 표시)
 PHARMACIES = [
-    {
-        "name": "하나로약국",
-        "address": "경기 남양주시 퇴계원읍 퇴계원로 117 염광빌딩동 101호",
-        "phone": "031-571-7579",
-        "hours": "월~금 09:00~18:00 / 토 09:00~16:00 / 일 휴무",
-        "lat": 37.6542, "lng": 127.1328
-    },
-    {
-        "name": "용한약국",
-        "address": "경기 남양주시 퇴계원읍 퇴계원로 93 1층",
-        "phone": "031-527-1188",
-        "hours": "월~금 09:00~22:00 / 토 09:00~21:00 / 공휴일 10:00~22:00 / 일 휴무",
-        "lat": 37.6538, "lng": 127.1318
-    },
-    {
-        "name": "소중한약국",
-        "address": "경기 남양주시 퇴계원읍 퇴계원로 70 1층",
-        "phone": "031-571-7233",
-        "hours": "월~금 09:00~19:00 / 일 09:00~15:00 / 토·공휴일 휴무",
-        "lat": 37.6533, "lng": 127.1308
-    },
-    {
-        "name": "세민약국",
-        "address": "경기 남양주시 퇴계원읍 퇴계원로 51",
-        "phone": "031-571-6734",
-        "hours": "월~금 09:00~20:00 / 토 09:00~21:00 / 공휴일 09:00~18:00 / 일 휴무",
-        "lat": 37.6528, "lng": 127.1298
-    },
-    {
-        "name": "임약국",
-        "address": "경기 남양주시 퇴계원읍 퇴계원로 52 다모아빌딩 1층 103호",
-        "phone": "031-574-8484",
-        "hours": "월~목 09:00~20:00 / 금 09:00~18:00 / 토 09:00~15:00 / 일 09:00~18:00",
-        "lat": 37.6526, "lng": 127.1296
-    },
-    {
-        "name": "참조은약국",
-        "address": "경기 남양주시 퇴계원읍 퇴계원로 48 가동 103호",
-        "phone": "031-574-1251",
-        "hours": "월~금 09:00~18:00 / 토 09:00~13:00 / 일 휴무",
-        "lat": 37.6524, "lng": 127.1294
-    },
-    {
-        "name": "비젼약국",
-        "address": "경기 남양주시 퇴계원읍 퇴계원로 46-1",
-        "phone": "031-574-1008",
-        "hours": "월~금 09:00~18:30 / 토 09:00~14:00 / 일 휴무",
-        "lat": 37.6522, "lng": 127.1292
-    },
-    {
-        "name": "참사랑약국",
-        "address": "경기 남양주시 퇴계원읍 퇴계원로46번길 1",
-        "phone": "031-528-5767",
-        "hours": "월~금 09:00~20:00 / 토 09:00~21:00 / 일 휴무",
-        "lat": 37.6520, "lng": 127.1290
-    },
-    {
-        "name": "문온누리약국",
-        "address": "경기 남양주시 퇴계원읍 퇴계원로 29",
-        "phone": "031-572-0409",
-        "hours": "월·수·금 08:00~21:00 / 화·목 08:00~19:00 / 토·일 08:00~16:00",
-        "lat": 37.6516, "lng": 127.1285
-    },
-    {
-        "name": "굿모닝약국",
-        "address": "경기 남양주시 퇴계원읍 퇴계원로 30 보성빌딩 1층",
-        "phone": "031-572-7749",
-        "hours": "월~금 09:00~13:00 / 토 09:00~16:00 / 일 휴무",
-        "lat": 37.6518, "lng": 127.1287
-    },
-    {
-        "name": "미엘약국",
-        "address": "경기 남양주시 퇴계원읍 퇴계원로 20 1층",
-        "phone": "031-571-2147",
-        "hours": "월~금 09:00~21:00 / 토·일·공휴일 09:00~18:00",
-        "lat": 37.6514, "lng": 127.1283
-    },
-    {
-        "name": "정안약국",
-        "address": "경기 남양주시 퇴계원읍 퇴계원로 16 1층 101,102호",
-        "phone": "031-571-9574",
-        "hours": "월~금 09:00~20:30 / 토 09:00~17:00 / 일 휴무",
-        "lat": 37.6512, "lng": 127.1281
-    },
+    {"name": "하나로약국", "address": "경기 남양주시 퇴계원읍 퇴계원로 117", "phone": "031-571-7579", "hours": "월~금 09:00~18:00 / 토 09:00~16:00 / 일 휴무"},
+    {"name": "용한약국", "address": "경기 남양주시 퇴계원읍 퇴계원로 93", "phone": "031-527-1188", "hours": "월~금 09:00~22:00 / 토 09:00~21:00 / 공휴일 10:00~22:00 / 일 휴무"},
+    {"name": "소중한약국", "address": "경기 남양주시 퇴계원읍 퇴계원로 70", "phone": "031-571-7233", "hours": "월~금 09:00~19:00 / 일 09:00~15:00 / 토·공휴일 휴무"},
+    {"name": "세민약국", "address": "경기 남양주시 퇴계원읍 퇴계원로 51", "phone": "031-571-6734", "hours": "월~금 09:00~20:00 / 토 09:00~21:00 / 공휴일 09:00~18:00 / 일 휴무"},
+    {"name": "임약국", "address": "경기 남양주시 퇴계원읍 퇴계원로 52", "phone": "031-574-8484", "hours": "월~목 09:00~20:00 / 금 09:00~18:00 / 토 09:00~15:00 / 일 09:00~18:00"},
+    {"name": "참조은약국", "address": "경기 남양주시 퇴계원읍 퇴계원로 48", "phone": "031-574-1251", "hours": "월~금 09:00~18:00 / 토 09:00~13:00 / 일 휴무"},
+    {"name": "비젼약국", "address": "경기 남양주시 퇴계원읍 퇴계원로 46-1", "phone": "031-574-1008", "hours": "월~금 09:00~18:30 / 토 09:00~14:00 / 일 휴무"},
+    {"name": "참사랑약국", "address": "경기 남양주시 퇴계원읍 퇴계원로46번길 1", "phone": "031-528-5767", "hours": "월~금 09:00~20:00 / 토 09:00~21:00 / 일 휴무"},
+    {"name": "문온누리약국", "address": "경기 남양주시 퇴계원읍 퇴계원로 29", "phone": "031-572-0409", "hours": "월·수·금 08:00~21:00 / 화·목 08:00~19:00 / 토·일 08:00~16:00"},
+    {"name": "굿모닝약국", "address": "경기 남양주시 퇴계원읍 퇴계원로 30", "phone": "031-572-7749", "hours": "월~금 09:00~13:00 / 토 09:00~16:00 / 일 휴무"},
+    {"name": "미엘약국", "address": "경기 남양주시 퇴계원읍 퇴계원로 20", "phone": "031-571-2147", "hours": "월~금 09:00~21:00 / 토·일·공휴일 09:00~18:00"},
+    {"name": "정안약국", "address": "경기 남양주시 퇴계원읍 퇴계원로 16", "phone": "031-571-9574", "hours": "월~금 09:00~20:30 / 토 09:00~17:00 / 일 휴무"},
 ]
 
 def pharmacy_map_html(pharmacies, api_key):
-    markers_js = ""
-    for p in pharmacies:
-        markers_js += f"""
-        (function() {{
-            var marker = new kakao.maps.Marker({{
-                map: map,
-                position: new kakao.maps.LatLng({p['lat']}, {p['lng']}),
-                title: '{p['name']}'
-            }});
-            var content = '<div style="padding:10px;min-width:200px;font-size:13px;line-height:1.8;">' +
-                '<b>🏥 {p['name']}</b><br>' +
-                '📍 {p['address']}<br>' +
-                '📞 {p['phone']}<br>' +
-                '🕐 {p['hours']}' +
-                '</div>';
-            var infowindow = new kakao.maps.InfoWindow({{ content: content, removable: true }});
-            kakao.maps.event.addListener(marker, 'click', function() {{
-                infowindow.open(map, marker);
-            }});
-        }})();
-        """
-
+    import json
+    pharmacies_json = json.dumps(pharmacies, ensure_ascii=False)
     return f"""
     <div style="font-family: sans-serif;">
-      <div id="map" style="width:100%; height:450px; border-radius:12px;"></div>
+      <div id="map" style="width:100%; height:450px; border-radius:12px; border:1px solid #ddd;"></div>
       <p style="font-size:13px; color:#666; margin-top:8px;">📍 약국 마커를 클릭하면 상세 정보가 나와요!</p>
     </div>
     <script type="text/javascript"
-      src="//dapi.kakao.com/v2/maps/sdk.js?appkey={api_key}">
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey={api_key}&libraries=services">
     </script>
     <script>
+      var pharmacies = {pharmacies_json};
+
       var mapContainer = document.getElementById('map');
       var mapOption = {{
         center: new kakao.maps.LatLng(37.6528, 127.1300),
         level: 4
       }};
       var map = new kakao.maps.Map(mapContainer, mapOption);
-      {markers_js}
+      var geocoder = new kakao.maps.services.Geocoder();
+      var bounds = new kakao.maps.LatLngBounds();
+
+      pharmacies.forEach(function(p) {{
+        geocoder.addressSearch(p.address, function(result, status) {{
+          if (status === kakao.maps.services.Status.OK) {{
+            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+            bounds.extend(coords);
+
+            var marker = new kakao.maps.Marker({{
+              map: map,
+              position: coords,
+              title: p.name
+            }});
+
+            var content =
+              '<div style="padding:12px;min-width:220px;font-size:13px;line-height:2;box-shadow:0 2px 8px rgba(0,0,0,0.15);border-radius:8px;background:#fff;">' +
+              '<b style="font-size:15px;">🏥 ' + p.name + '</b><br>' +
+              '📍 ' + p.address + '<br>' +
+              '📞 ' + p.phone + '<br>' +
+              '🕐 ' + p.hours +
+              '</div>';
+
+            var infowindow = new kakao.maps.InfoWindow({{ content: content, removable: true }});
+
+            kakao.maps.event.addListener(marker, 'click', function() {{
+              infowindow.open(map, marker);
+            }});
+
+            map.setBounds(bounds);
+          }}
+        }});
+      }});
     </script>
     """
 
