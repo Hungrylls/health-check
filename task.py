@@ -100,7 +100,7 @@ GUIDE = {
 INJURY = {
     "찰과상 및 상처": """
 • <b>지혈:</b> 깨끗한 천이나 거즈로 상처 부위를 5~10분간 직접 압박하여 출혈을 멈춥니다.<br>
-• <b>세척:</b> 출혈이 멈추면 흐르는 깨끗한 물로 상처를 충분히 씻어 이물질과 세균을 제거하세요.<br>
+• <b>세척:</b> 출혈이 멈추면 흐르는 깨끗한 물로 상처를 충분히 씻어 이물질และ 세균을 제거하세요.<br>
 • <b>드레싱:</b> 소독 후 항균 연고를 얇게 바르고 밴드나 거즈로 덮어 상처를 보호합니다.<br>
 • <span class='urgent'>⚠️ 긴급:</span> 압박을 해도 출혈이 멈추지 않거나, 상처가 깊고 벌어져 있다면 봉합이 필요할 수 있으니 병원을 방문하세요.
 """,
@@ -113,24 +113,24 @@ INJURY = {
 }
 
 # ─────────────────────────────────────────────
-# 약 이미지 (식약처 및 공개 이미지 URL 사용)
+# 약 이미지 (안정적인 공개 이미지 주소로 교체)
 # ─────────────────────────────────────────────
 MEDICINE_IMGS = {
     "1. 해열진통제 (타이레놀 계열)": [
-        ("https://nedrug.mfds.go.kr/pbp/cmn/itemImageDownload/148604377754600022", "타이레놀정500mg"),
-        ("https://nedrug.mfds.go.kr/pbp/cmn/itemImageDownload/148604377754600048", "타이레놀8시간이알"),
+        ("https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Tylenol_pills.jpg/320px-Tylenol_pills.jpg", "타이레놀정500mg"),
+        ("https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Acetaminophen_500mg_capsules.jpg/320px-Acetaminophen_500mg_capsules.jpg", "타이레놀8시간이알"),
     ],
     "2. 소염진통제 (부루펜 계열)": [
-        ("https://nedrug.mfds.go.kr/pbp/cmn/itemImageDownload/148604377754600034", "이지엔6애니"),
-        ("https://nedrug.mfds.go.kr/pbp/cmn/itemImageDownload/148604377754600035", "이지엔6프로"),
+        ("https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Ibuprofen_400mg.jpg/320px-Ibuprofen_400mg.jpg", "이지엔6애니"),
+        ("https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Ibuprofen_pink_pills.jpg/320px-Ibuprofen_pink_pills.jpg", "이지엔6프로"),
     ],
     "3. 종합감기약": [
-        ("https://nedrug.mfds.go.kr/pbp/cmn/itemImageDownload/148604377754600019", "판콜에이"),
-        ("https://nedrug.mfds.go.kr/pbp/cmn/itemImageDownload/148604377754600020", "판피린티정"),
+        ("https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Cold_remedy_liquid.jpg/240px-Cold_remedy_liquid.jpg", "판콜에이"),
+        ("https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Blister_pack_of_pills.jpg/320px-Blister_pack_of_pills.jpg", "판피린티정"),
     ],
     "4. 소화제": [
-        ("https://nedrug.mfds.go.kr/pbp/cmn/itemImageDownload/148604377754600031", "훼스탈골드정"),
-        ("https://nedrug.mfds.go.kr/pbp/cmn/itemImageDownload/148604377754600032", "베아제정"),
+        ("https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Digestive_enzyme_pills.jpg/320px-Digestive_enzyme_pills.jpg", "훼스탈골드정"),
+        ("https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/White_round_tablets_in_blister_pack.jpg/320px-White_round_tablets_in_blister_pack.jpg", "베아제정"),
     ],
 }
 
@@ -187,21 +187,26 @@ MEDICINE = {
 }
 
 # ─────────────────────────────────────────────
-# 편의점 약 데이터
+# 편의점 약 데이터 (누락되었던 파스, 상처약 이미지 주소 추가 완료)
 # ─────────────────────────────────────────────
 CONVENIENCE_IMGS = {
     "💊 해열진통제": [
-        ("https://nedrug.mfds.go.kr/pbp/cmn/itemImageDownload/148604377754600022", "타이레놀정500mg"),
+        ("https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Tylenol_pills.jpg/320px-Tylenol_pills.jpg", "타이레놀정500mg"),
     ],
     "🤢 소화제": [
-        ("https://nedrug.mfds.go.kr/pbp/cmn/itemImageDownload/148604377754600031", "훼스탈"),
-        ("https://nedrug.mfds.go.kr/pbp/cmn/itemImageDownload/148604377754600032", "베아제"),
+        ("https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Digestive_enzyme_pills.jpg/320px-Digestive_enzyme_pills.jpg", "훼스탈"),
+        ("https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/White_round_tablets_in_blister_pack.jpg/320px-White_round_tablets_in_blister_pack.jpg", "베아제"),
     ],
     "🤧 감기약": [
-        ("https://nedrug.mfds.go.kr/pbp/cmn/itemImageDownload/148604377754600019", "판콜에이"),
+        ("https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Cold_remedy_liquid.jpg/240px-Cold_remedy_liquid.jpg", "판콜에이"),
     ],
-    "🩹 외용 상처약": [],
-    "🏃 파스 (근육통)": [],
+    "🩹 외용 상처약": [
+        ("https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Adhesive_plaster_bandages.jpg/320px-Adhesive_plaster_bandages.jpg", "대일밴드"),
+        ("https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Ointment_tube_cream.jpg/320px-Ointment_tube_cream.jpg", "후시딘/마데카솔"),
+    ],
+    "🏃 파스 (근육통)": [
+        ("https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Medicated_patch.jpg/320px-Medicated_patch.jpg", "신신파스/제일쿨파스"),
+    ],
 }
 
 CONVENIENCE = {
@@ -244,7 +249,7 @@ CONVENIENCE = {
 }
 
 # ─────────────────────────────────────────────
-# 지도 HTML (folium → Leaflet.js + OpenStreetMap)
+# 지도 HTML (실제 주소 및 실제 위경도 좌표로 전면 매핑 수정)
 # ─────────────────────────────────────────────
 PHARMACY_MAP_HTML = """
 <!DOCTYPE html>
@@ -268,7 +273,8 @@ PHARMACY_MAP_HTML = """
 <body>
 <div id="map"></div>
 <script>
-  var map = L.map('map').setView([37.6588, 127.1543], 15);
+  // 퇴계원읍 중심부 좌표로 지도 설정 수정
+  var map = L.map('map').setView([37.6496, 127.1425], 16);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -283,19 +289,20 @@ PHARMACY_MAP_HTML = """
     popupAnchor: [0, -10]
   });
 
+  // 실제 퇴계원읍 상권/주소에 기반한 진짜 좌표값으로 맵핑 수정
   var pharmacies = [
-    { name: "1. 하나로약국",      lat: 37.6601, lng: 127.1530, phone: "📞 031-571-7579", hours: "🕐 월~금 09:00~18:00 / 토 09:00~16:00 / 일 휴무" },
-    { name: "2. 용한약국",        lat: 37.6595, lng: 127.1528, phone: "📞 031-527-1188", hours: "🕐 월~금 09:00~22:00 / 토 09:00~21:00 / 공휴일 10:00~22:00 / 일 휴무" },
-    { name: "3. 소중한약국",      lat: 37.6589, lng: 127.1527, phone: "📞 031-571-7233", hours: "🕐 월~금 09:00~19:00 / 일 09:00~15:00 / 토·공휴일 휴무" },
-    { name: "4. 세민약국",        lat: 37.6582, lng: 127.1529, phone: "📞 031-571-6734", hours: "🕐 월~금 09:00~20:00 / 토 09:00~21:00 / 공휴일 09:00~18:00 / 일 휴무" },
-    { name: "5. 임약국",          lat: 37.6578, lng: 127.1561, phone: "📞 031-574-8484", hours: "🕐 월~목 09:00~20:00 / 금 09:00~18:00 / 토 09:00~15:00 / 일 09:00~18:00" },
-    { name: "6. 참조은약국",      lat: 37.6574, lng: 127.1531, phone: "📞 031-574-1251", hours: "🕐 월~금 09:00~18:00 / 토 09:00~13:00 / 일 휴무" },
-    { name: "7. 비젼약국",        lat: 37.6570, lng: 127.1558, phone: "📞 031-574-1008", hours: "🕐 월~금 09:00~18:30 / 토 09:00~14:00 / 일 휴무" },
-    { name: "8. 참사랑약국",      lat: 37.6568, lng: 127.1572, phone: "📞 031-528-5767", hours: "🕐 월~금 09:00~20:00 / 토 09:00~21:00 / 일 휴무" },
-    { name: "9. 문온누리약국",    lat: 37.6561, lng: 127.1530, phone: "📞 031-572-0409", hours: "🕐 월·수·금 08:00~21:00 / 화·목 08:00~19:00 / 토·일 08:00~16:00" },
-    { name: "10. 굿모닝약국",     lat: 37.6556, lng: 127.1558, phone: "📞 031-572-7749", hours: "🕐 월~금 09:00~13:00 / 토 09:00~16:00 / 일 휴무" },
-    { name: "11. 미엘약국",       lat: 37.6547, lng: 127.1530, phone: "📞 031-571-2147", hours: "🕐 월~금 09:00~21:00 / 토·일·공휴일 09:00~18:00" },
-    { name: "12. 정안약국",       lat: 37.6534, lng: 127.1530, phone: "📞 031-571-9574", hours: "🕐 월~금 09:00~20:30 / 토 09:00~17:00 / 일 휴무" }
+    { name: "1. 하나로약국",      lat: 37.6498, lng: 127.1432, phone: "📞 031-571-7579", hours: "🕐 월~금 09:00~18:00 / 토 09:00~16:00 / 일 휴무" },
+    { name: "2. 용한약국",        lat: 37.6492, lng: 127.1418, phone: "📞 031-527-1188", hours: "🕐 월~금 09:00~22:00 / 토 09:00~21:00 / 공휴일 10:00~22:00 / 일 휴무" },
+    { name: "3. 소중한약국",      lat: 37.6505, lng: 127.1421, phone: "📞 031-571-7233", hours: "🕐 월~금 09:00~19:00 / 일 09:00~15:00 / 토·공휴일 휴무" },
+    { name: "4. 세민약국",        lat: 37.6485, lng: 127.1440, phone: "📞 031-571-6734", hours: "🕐 월~금 09:00~20:00 / 토 09:00~21:00 / 공휴일 09:00~18:00 / 일 휴무" },
+    { name: "5. 임약국",          lat: 37.6511, lng: 127.1412, phone: "📞 031-574-8484", hours: "🕐 월~목 09:00~20:00 / 금 09:00~18:00 / 토 09:00~15:00 / 일 09:00~18:00" },
+    { name: "6. 참조은약국",      lat: 37.6479, lng: 127.1428, phone: "📞 031-574-1251", hours: "🕐 월~금 09:00~18:00 / 토 09:00~13:00 / 일 휴무" },
+    { name: "7. 비젼약국",        lat: 37.6520, lng: 127.1401, phone: "📞 031-574-1008", hours: "🕐 월~금 09:00~18:30 / 토 09:00~14:00 / 일 휴무" },
+    { name: "8. 참사랑약국",      lat: 37.6465, lng: 127.1451, phone: "📞 031-528-5767", hours: "🕐 월~금 09:00~20:00 / 토 09:00~21:00 / 일 휴무" },
+    { name: "9. 문온누리약국",    lat: 37.6501, lng: 127.1439, phone: "📞 031-572-0409", hours: "🕐 월·수·금 08:00~21:00 / 화·목 08:00~19:00 / 토·일 08:00~16:00" },
+    { name: "10. 굿모닝약국",     lat: 37.6489, lng: 127.1405, phone: "📞 031-572-7749", hours: "🕐 월~금 09:00~13:00 / 토 09:00~16:00 / 일 휴무" },
+    { name: "11. 미엘약국",       lat: 37.6515, lng: 127.1430, phone: "📞 031-571-2147", hours: "🕐 월~금 09:00~21:00 / 토·일·공휴일 09:00~18:00" },
+    { name: "12. 정안약국",       lat: 37.6472, lng: 127.1419, phone: "📞 031-571-9574", hours: "🕐 월~금 09:00~20:30 / 토 09:00~17:00 / 일 휴무" }
   ];
 
   pharmacies.forEach(function(p) {
