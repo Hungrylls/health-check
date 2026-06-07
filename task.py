@@ -1,7 +1,7 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-st.set_page_config(page_title="보건 체크", page_icon="🏥", layout="centered")
+st.set_page_config(page_title="HP Check", page_icon="🏥", layout="centered")
 
 st.markdown("""
 <style>
@@ -279,7 +279,7 @@ def nav(back_fn, bk, rs):
         if st.button("🔄 처음으로 돌아가기", key=rs):
             reset(); st.rerun()
 
-st.markdown("## 🏥 보건 도우미")
+st.markdown("## 🏥 HP Check")
 st.markdown("---")
 
 if st.session_state.menu is None:
